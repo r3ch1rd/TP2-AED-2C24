@@ -2,6 +2,88 @@ package aed;
 
 public class SistemaSIU {
 
+    private trieCarreras Carreras;
+    private trieAlumnos Alumnos;
+    private materiasDeCarrera materiasDeCarrera;
+
+    private class trieCarreras{
+
+        private Nodo raiz;
+        private int cantCarreras;
+
+        private class Nodo{
+            private char valor;
+            private Nodo hermano;
+            private Nodo hijo;
+
+            Nodo(char v){
+                valor = v;
+            }
+        }
+
+        public trieCarreras(){
+            cantCarreras = 0;
+            raiz = null;
+        }
+
+        public void insertarCarrera(String carrera){
+            int i = 0;
+            Nodo actual = raiz;
+            Nodo hermanoMenor = null;
+            Nodo padre = null;
+            if(raiz == null){ //no hay carreras
+                raiz = new Nodo(carrera.charAt(0));
+                padre = raiz;
+                actual = raiz.hijo;
+                i = 1;
+            } else { //hay carreras
+                if (raiz.valor > carrera.charAt(0)) {
+                    Nodo nuevaRaiz = new Nodo(carrera.charAt(0));
+                    nuevaRaiz.hermano = raiz;
+                    raiz = nuevaRaiz;
+                    padre = raiz;
+                    actual = raiz.hijo;
+                    i = 1;
+                } else {
+                    while (actual != null && i < carrera.length()) {
+                        while (actual != null && actual.valor < carrera.charAt(i)){
+                            hermanoMenor = actual;
+                            actual = actual.hermano;
+                        } // actual == null || actual.valor >= carrera.charAt(i)
+                        if (actual != null && actual.valor > carrera.charAt(i)) {
+                            Nodo nuevo = new Nodo(carrera.charAt(i));
+                            if (hermanoMenor == null) {
+                            padre.hijo = nuevo;
+                            } else {
+                            hermanoMenor.hermano = nuevo;
+                            }
+                            nuevo.hermano = actual;
+                            actual = nuevo;
+                        } else if (actual == null) { 
+                            Nodo nuevo = new Nodo(carrera.charAt(i));
+                            hermanoMenor.hermano = nuevo;
+                            actual = nuevo;
+                        } //aca 100% -> (actual != null && actual.valor == carrera.charAt(i))
+                        padre = actual;
+                        actual = actual.hijo;
+                        hermanoMenor = null;
+                        i++;
+                    }
+
+                }
+
+            }
+            while(i < carrera.length()){
+                actual = new Nodo(carrera.charAt(i));
+                //padre.hijo = actual; creo que no es necesario
+                //padre = actual;
+                actual = actual.hijo;
+                i++;
+            }
+        }
+    }
+    
+
     enum CargoDocente{
         AY2,
         AY1,
