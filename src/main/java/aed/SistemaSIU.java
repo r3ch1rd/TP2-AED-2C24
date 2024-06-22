@@ -3,10 +3,10 @@ package aed;
 public class SistemaSIU {
 
     private trieCarreras Carreras;
-    private trieAlumnos Alumnos;
-    private materiasDeCarrera materiasDeCarrera;
+    // private trieAlumnos Alumnos;
+    // private materiasDeCarrera materiasDeCarrera;
 
-    private class trieCarreras{
+    static class trieCarreras{
 
         private Nodo raiz;
         private int cantCarreras;
@@ -16,6 +16,7 @@ public class SistemaSIU {
             private Nodo hermano;
             private Nodo hijo;
             private boolean def;
+            private trieMaterias materias;
 
             Nodo(char v){
                 valor = v;
@@ -33,6 +34,7 @@ public class SistemaSIU {
             Nodo actual = raiz;
             Nodo hermanoMenor = null;
             Nodo padre = null;
+
             if(raiz == null){ //no hay carreras
                 raiz = new Nodo(carrera.charAt(0));
                 padre = raiz;
@@ -83,8 +85,10 @@ public class SistemaSIU {
                 i++;
             }
             padre.def = true;
+            padre.materias = new trieMaterias();
             this.cantCarreras++;
         }
+
 
         public boolean perteneceCarrera(String carrera){
             if(raiz == null){ //no hay carreras
@@ -106,6 +110,168 @@ public class SistemaSIU {
                 return i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true; 
             }
         }
+
+        public void insertarMateria(String carrera, String materia){
+            if(perteneceCarrera(carrera)){
+                Nodo actual = raiz;
+                for(char c : carrera.toCharArray()){
+                    while(actual.valor != c){
+                        actual = actual.hermano;
+                    }
+                    if(actual.materias == null){
+                        actual = actual.hijo;
+                    }else{
+                        actual.materias.insertarMateria(materia);
+                    }
+                }
+            }
+        }
+
+        public boolean perteneceMaterias(String carrera, String materia){
+            if(perteneceCarrera(carrera)){
+                Nodo actual = raiz;
+                for(char c : carrera.toCharArray()){
+                    while(actual.valor != c){
+                        actual = actual.hermano;
+                    }
+                    if(actual.materias == null){
+                        actual = actual.hijo;
+                    }
+                }
+                return actual.materias.perteneceMaterias(materia);
+            }else{
+                return false;
+            }
+        }
+
+    }
+
+    static class trieMaterias{
+
+        private Nodo raiz;
+        private int cantMaterias;
+
+        private class Nodo{
+            private char valor;
+            private Nodo hermano;
+            private Nodo hijo;
+            private boolean def;
+
+            Nodo(char v){
+                valor = v;
+                def = false;
+            }
+        }
+
+        public trieMaterias(){
+            cantMaterias = 0;
+            raiz = null;
+        }
+
+        public void insertarMateria(String materia){
+            int i = 0;
+            Nodo actual = raiz;
+            Nodo hermanoMenor = null;
+            Nodo padre = null;
+            if(raiz == null){ //no hay materias
+                raiz = new Nodo(materia.charAt(0));
+                padre = raiz;
+                actual = raiz.hijo;
+                i = 1;
+            } else { //hay materias
+                if (raiz.valor > materia.charAt(0)) {
+                    Nodo nuevaRaiz = new Nodo(materia.charAt(0));
+                    nuevaRaiz.hermano = raiz;
+                    raiz = nuevaRaiz;
+                    padre = raiz;
+                    actual = raiz.hijo;
+                    i = 1;
+                } else {
+                    while (actual != null && i < materia.length()) {
+                        while (actual != null && actual.valor < materia.charAt(i)){
+                            hermanoMenor = actual;
+                            actual = actual.hermano;
+                        } // actual == null || actual.valor >= carrera.charAt(i)
+                        if (actual != null && actual.valor > materia.charAt(i)) {
+                            Nodo nuevo = new Nodo(materia.charAt(i));
+                            if (hermanoMenor == null) {
+                            padre.hijo = nuevo;
+                            } else {
+                            hermanoMenor.hermano = nuevo;
+                            }
+                            nuevo.hermano = actual;
+                            actual = nuevo;
+                        } else if (actual == null) { 
+                            Nodo nuevo = new Nodo(materia.charAt(i));
+                            hermanoMenor.hermano = nuevo;
+                            actual = nuevo;
+                        } //aca 100% -> (actual != null && actual.valor == carrera.charAt(i))
+                        padre = actual;
+                        actual = actual.hijo;
+                        hermanoMenor = null;
+                        i++;
+                    }
+
+                }
+
+            }
+            while(i < materia.length()){
+                actual = new Nodo(materia.charAt(i));
+                padre.hijo = actual;
+                padre = actual;
+                actual = actual.hijo;
+                i++;
+            }
+            padre.def = true;
+            this.cantMaterias++;
+        }
+
+
+        public boolean perteneceMaterias(String materia){
+            if(raiz == null){ //no hay carreras
+                return false;
+            } else { //hay carreras
+                int i = 0;
+                Nodo actual = raiz;
+                Nodo padre = null;
+                while (actual != null && i < materia.length()) {
+                    while (actual != null && actual.valor != materia.charAt(i)){
+                        actual = actual.hermano;
+                    } // actual == null || actual.valor == carrera.charAt(i)
+                    if (actual != null && actual.valor == materia.charAt(i)) {
+                        i++;
+                        padre = actual;
+                        actual = actual.hijo;
+                    }
+                }
+                return i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true; 
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        trieCarreras carreras = new trieCarreras();
+        carreras.insertarCarrera("ciencias de datos");
+        carreras.insertarCarrera("ciencias de la computacion");
+        carreras.insertarCarrera("diseño de indumentaria");
+
+        System.out.println(carreras.perteneceCarrera("ciencias de datos"));
+        System.out.println(carreras.perteneceCarrera("ciencias de la computacion"));
+        System.out.println(carreras.perteneceCarrera("diseño de indumentaria"));
+
+        carreras.insertarMateria("ciencias de datos", "intro");
+        carreras.insertarMateria("ciencias de datos", "algo2/exalgo1");
+        carreras.insertarMateria("ciencias de la computacion", "programacion");
+        carreras.insertarMateria("ciencias de la computacion", "analisis 2");
+        carreras.insertarMateria("diseño de indumentaria","materiales 1");
+        carreras.insertarMateria("diseño de indumentaria","materiales 2");
+
+        System.out.println(carreras.perteneceMaterias("ciencias de datos","intro"));
+        System.out.println(carreras.perteneceMaterias("ciencias de datos","algo2/exalgo1"));
+        System.out.println(carreras.perteneceMaterias("ciencias de la computacion", "programacion"));
+        System.out.println(carreras.perteneceMaterias("ciencias de la computacion", "analisis 2"));
+        System.out.println(carreras.perteneceMaterias("diseño de indumentaria","materiales 1"));
+        System.out.println(carreras.perteneceMaterias("diseño de indumentaria","materiales 2"));
     }
     
 
