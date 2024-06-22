@@ -111,6 +111,51 @@ public class SistemaSIU {
             }
         }
 
+        public void eliminarCarrera(String carrera){
+            if(raiz != null){ //si hay carreras...
+                int i = 0;
+                Nodo actual = raiz;
+                Nodo padre = null;
+                Nodo ultimoNodoUtil = null;
+                int caso = 0;
+                while (actual != null && i < carrera.length()) {
+                    while (actual != null && actual.valor != carrera.charAt(i)){
+                        if (actual.hijo != null || actual.def == true) {
+                            ultimoNodoUtil = actual;
+                            caso = 1;
+                        }
+                        actual = actual.hermano;
+                    } // actual == null || actual.valor == carrera.charAt(i)
+                    if (actual != null && actual.valor == carrera.charAt(i)) {
+                        i++;
+                        padre = actual;
+                        actual = actual.hijo;
+                        if (actual.hermano != null) { //caso = 2;
+                            ultimoNodoUtil = padre;
+                        }
+                    }
+                }
+                if (i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true) { // si carrera pertenece a trieCarreras...
+                    if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
+                        if (raiz.hermano == null) {
+                            raiz = null;
+                        } else {
+                            raiz = raiz.hermano;
+                        }
+                    } else if (caso == 1) {
+                        if (ultimoNodoUtil.hermano.hermano == null) {
+                            ultimoNodoUtil.hermano = null;   
+                        } else {
+                            ultimoNodoUtil.hermano = ultimoNodoUtil.hermano.hermano;
+                        }
+                    } else { //caso == 2
+                        ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;
+                    }
+                    cantCarreras--;
+                } // si no pertenece, no hago nada
+            } // si no hay carreras, no hago nada
+        }
+
         public void insertarMateria(String carrera, String materia){
             if(perteneceCarrera(carrera)){
                 Nodo actual = raiz;
