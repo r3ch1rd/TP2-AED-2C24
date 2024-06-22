@@ -15,9 +15,11 @@ public class SistemaSIU {
             private char valor;
             private Nodo hermano;
             private Nodo hijo;
+            private boolean def;
 
             Nodo(char v){
                 valor = v;
+                def = false;
             }
         }
 
@@ -75,10 +77,33 @@ public class SistemaSIU {
             }
             while(i < carrera.length()){
                 actual = new Nodo(carrera.charAt(i));
-                //padre.hijo = actual; creo que no es necesario
-                //padre = actual;
+                padre.hijo = actual;
+                padre = actual;
                 actual = actual.hijo;
                 i++;
+            }
+            padre.def = true;
+            this.cantCarreras++;
+        }
+
+        public boolean perteneceCarrera(String carrera){
+            if(raiz == null){ //no hay carreras
+                return false;
+            } else { //hay carreras
+                int i = 0;
+                Nodo actual = raiz;
+                Nodo padre = null;
+                while (actual != null && i < carrera.length()) {
+                    while (actual != null && actual.valor != carrera.charAt(i)){
+                        actual = actual.hermano;
+                    } // actual == null || actual.valor == carrera.charAt(i)
+                    if (actual != null && actual.valor == carrera.charAt(i)) {
+                        i++;
+                        padre = actual;
+                        actual = actual.hijo;
+                    }
+                }
+                return i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true; 
             }
         }
     }
