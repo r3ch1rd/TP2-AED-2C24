@@ -1,4 +1,7 @@
 package aed;
+import java.util.*;
+
+import aed.SistemaSIU.CargoDocente;
 
 public class trieMaterias {
     
@@ -12,6 +15,7 @@ public class trieMaterias {
         private boolean def;
         private trieAlumnos alumnos;
         private InfoMateria info;
+        private int[] docentes;
 
         Nodo(char v){
             valor = v;
@@ -81,6 +85,7 @@ public class trieMaterias {
         padre.def = true;
         this.cantMaterias++;
         if(padre.alumnos==null){padre.alumnos = new trieAlumnos();}
+        if(padre.docentes==null){padre.docentes = new int[] {0,0,0,0};}
     }
 
     public boolean perteneceMaterias(String materia){
@@ -167,4 +172,50 @@ public class trieMaterias {
             return null;
         }
     }
+
+    public void agregarDocente(CargoDocente docente, String materia){
+        if(perteneceMaterias(materia)){
+            Nodo actual = raiz;
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<materia.length()-1){
+                    actual = actual.hijo;
+                }
+            }
+            switch (docente) {
+                case AY2:
+                    actual.docentes[3] = actual.docentes[3] + 1;
+                    break;
+                case AY1:
+                    actual.docentes[2] = actual.docentes[2] + 1;
+                    break;
+                case JTP:
+                    actual.docentes[1] = actual.docentes[1] + 1;
+                    break;
+                default:
+                    actual.docentes[0] = actual.docentes[0] + 1;
+                    break;
+            }
+        }
+    }
+
+    public int[] plantelDocente(String materia){
+        if(perteneceMaterias(materia)){
+            Nodo actual = raiz;
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<(materia.length()-1)){
+                    actual = actual.hijo;
+                }
+            }
+            return actual.docentes;
+        }else{
+            return null;
+        }
+    }
+
 }

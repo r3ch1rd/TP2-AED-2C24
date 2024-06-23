@@ -57,14 +57,28 @@ public class SistemaSIU {
 
         SistemaSIU sistema = new SistemaSIU(infoMaterias, estudiantes);
         
-        System.out.println("test inscriptos sobre sistema");
+        System.out.println("test docentes sobre sistema");
 
-        sistema.inscribir(estudiantes[6], "Ciencias Físicas", "Matemática 3");
+        sistema.agregarDocente(CargoDocente.PROF, "Ciencias de la Computación", "Intro a la Programación");
+        sistema.agregarDocente(CargoDocente.PROF, "Ciencias de la Computación", "Intro a la Programación");
+        sistema.agregarDocente(CargoDocente.AY2, "Ciencias de la Computación", "Intro a la Programación");
+        sistema.agregarDocente(CargoDocente.AY2, "Ciencias de la Computación", "Intro a la Programación");
+        sistema.agregarDocente(CargoDocente.AY1, "Ciencias de la Computación", "Intro a la Programación");
 
 
-        System.out.println(sistema.inscriptos("Análisis I", "Ciencias de Datos"));
-        System.out.println(sistema.inscriptos("Matemática 3", "Ciencias Físicas"));
-        System.out.println(sistema.inscriptos("Análisis I", "Ciencias de la Computación"));
+        int[] plant2 = sistema.plantelDocente("Algoritmos1", "Ciencias de Datos");
+        System.out.println("Algoritmos1 Ciencias de Datos");
+        System.out.println(plant2[0]);
+        System.out.println(plant2[1]);
+        System.out.println(plant2[2]);
+        System.out.println(plant2[3]);
+
+        int[] plant = sistema.plantelDocente("Intro a la Programación", "Ciencias de la Computación");
+        System.out.println("Intro a la Programación Ciencias de la Computación");
+        System.out.println(plant[0]);
+        System.out.println(plant[1]);
+        System.out.println(plant[2]);
+        System.out.println(plant[3]);
 
 
         System.out.println("tests eliminar carreras");
@@ -100,11 +114,17 @@ public class SistemaSIU {
     }
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+
+        InfoMateria infomateria = this.Carreras.materiasIguales(carrera,materia);
+        for (ParCarreraMateria parCarreraMateria : infomateria.getParesCarreraMateria()){
+            this.Carreras.agregarDocente(cargo, 
+                                         parCarreraMateria.getCarrera(),
+                                         parCarreraMateria.getNombreMateria());
+        }
     }
 
     public int[] plantelDocente(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return this.Carreras.plantelDocente(materia,carrera);
     }
 
     public void cerrarMateria(String materia, String carrera){
@@ -121,8 +141,19 @@ public class SistemaSIU {
         return res; 
     }
 
+    public boolean excedeCupo(int inscriptos, int[] docentes, String materia, String carrera){
+        boolean res = false;
+        if (docentes[0]*250<inscriptos){res = true;}
+        if (docentes[1]*100<inscriptos){res = true;}
+        if (docentes[2]*20<inscriptos){res = true;}
+        if (docentes[3]*30<inscriptos){res = true;}
+        return res;
+    }
+
     public boolean excedeCupo(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return excedeCupo(this.inscriptos(materia, carrera),
+                          this.plantelDocente(materia, carrera),
+                          materia, carrera);
     }
 
     public String[] carreras(){

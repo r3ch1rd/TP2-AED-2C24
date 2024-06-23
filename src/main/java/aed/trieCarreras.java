@@ -1,5 +1,7 @@
 package aed;
 
+import aed.SistemaSIU.CargoDocente;
+
 public class trieCarreras {
 
     private Nodo raiz;
@@ -251,6 +253,38 @@ public class trieCarreras {
                 }
             }
             return actual.materias.materiasIguales(materia);
+        }else{
+            return null;
+        }
+    }
+
+    public void agregarDocente(CargoDocente docente, String carrera, String materia){
+        if(perteneceCarrera(carrera)){
+            Nodo actual = raiz;
+            for(int i=0;i<carrera.length();i++){
+                while(actual.valor != carrera.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<(carrera.length()-1)){
+                    actual = actual.hijo;
+                }
+            }
+            actual.materias.agregarDocente(docente, materia);
+        }
+    }
+
+    public int[] plantelDocente(String materia, String carrera){
+        if(this.perteneceCarrera(carrera)){
+            Nodo actual = raiz;
+            for(int i=0;i<carrera.length();i++){
+                while(actual.valor != carrera.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<(carrera.length()-1)){
+                    actual = actual.hijo;
+                }
+            }
+            return actual.materias.plantelDocente(materia);
         }else{
             return null;
         }
