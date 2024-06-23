@@ -1,16 +1,16 @@
 package aed;
 
-public class trieMaterias {
+public class trieAlumnos {
     
     private Nodo raiz;
-    private int cantMaterias;
+    private int cantAlumnos;
 
     private class Nodo{
         private char valor;
         private Nodo hermano;
         private Nodo hijo;
         private boolean def;
-        private trieAlumnos alumnos;
+        private int nroMaterias;
 
         Nodo(char v){
             valor = v;
@@ -18,37 +18,37 @@ public class trieMaterias {
         }
     }
 
-    public trieMaterias(){
-        cantMaterias = 0;
+    public trieAlumnos(){
+        cantAlumnos = 0;
         raiz = null;
     }
 
-    public void insertarMateria(String materia){
+    public void insertarAlumno(String alumno){
         int i = 0;
         Nodo actual = raiz;
         Nodo hermanoMenor = null;
         Nodo padre = null;
-        if(raiz == null){ //no hay materias
-            raiz = new Nodo(materia.charAt(0));
+        if(raiz == null){ //no hay alumnos
+            raiz = new Nodo(alumno.charAt(0));
             padre = raiz;
             actual = raiz.hijo;
             i = 1;
-        } else { //hay materias
-            if (raiz.valor > materia.charAt(0)) {
-                Nodo nuevaRaiz = new Nodo(materia.charAt(0));
+        } else { //hay alumnos
+            if (raiz.valor > alumno.charAt(0)) {
+                Nodo nuevaRaiz = new Nodo(alumno.charAt(0));
                 nuevaRaiz.hermano = raiz;
                 raiz = nuevaRaiz;
                 padre = raiz;
                 actual = raiz.hijo;
                 i = 1;
             } else {
-                while (actual != null && i < materia.length()) {
-                    while (actual != null && actual.valor < materia.charAt(i)){
+                while (actual != null && i < alumno.length()) {
+                    while (actual != null && actual.valor < alumno.charAt(i)){
                         hermanoMenor = actual;
                         actual = actual.hermano;
                     } // actual == null || actual.valor >= carrera.charAt(i)
-                    if (actual != null && actual.valor > materia.charAt(i)) {
-                        Nodo nuevo = new Nodo(materia.charAt(i));
+                    if (actual != null && actual.valor > alumno.charAt(i)) {
+                        Nodo nuevo = new Nodo(alumno.charAt(i));
                         if (hermanoMenor == null) {
                         padre.hijo = nuevo;
                         } else {
@@ -57,7 +57,7 @@ public class trieMaterias {
                         nuevo.hermano = actual;
                         actual = nuevo;
                     } else if (actual == null) { 
-                        Nodo nuevo = new Nodo(materia.charAt(i));
+                        Nodo nuevo = new Nodo(alumno.charAt(i));
                         hermanoMenor.hermano = nuevo;
                         actual = nuevo;
                     } //aca 100% -> (actual != null && actual.valor == carrera.charAt(i))
@@ -70,53 +70,73 @@ public class trieMaterias {
             }
 
         }
-        while(i < materia.length()){
-            actual = new Nodo(materia.charAt(i));
+        while(i < alumno.length()){
+            actual = new Nodo(alumno.charAt(i));
             padre.hijo = actual;
             padre = actual;
             actual = actual.hijo;
             i++;
         }
         padre.def = true;
-        this.cantMaterias++;
-        padre.alumnos = new trieAlumnos();
+        this.cantAlumnos++;
+
+        // solo se usa para el trie de alumnos y el nro de materias insprictas
+        padre.nroMaterias = 0;
     }
 
 
-    public boolean perteneceMaterias(String materia){
-        if(raiz == null){ //no hay carreras
+    public boolean perteneceAlumnos(String alumno){
+        if(raiz == null){ //no hay alumnos
             return false;
-        } else { //hay carreras
+        } else { //hay alumnos
             int i = 0;
             Nodo actual = raiz;
             Nodo padre = null;
-            while (actual != null && i < materia.length()) {
-                while (actual != null && actual.valor != materia.charAt(i)){
+            while (actual != null && i < alumno.length()) {
+                while (actual != null && actual.valor != alumno.charAt(i)){
                     actual = actual.hermano;
                 } // actual == null || actual.valor == carrera.charAt(i)
-                if (actual != null && actual.valor == materia.charAt(i)) {
+                if (actual != null && actual.valor == alumno.charAt(i)) {
                     i++;
                     padre = actual;
                     actual = actual.hijo;
                 }
             }
-            return i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true; 
+            return i == alumno.length() && padre.valor == alumno.charAt(alumno.length()-1) && padre.def == true; 
         }
     }
 
-    public void insertarAlumno(String materia, String alumno){
-        if(perteneceMaterias(materia)){
+    // solo se usa para el trie de alumnos y el nro de materias insprictas
+    public void agregarMateriaAAlumno(String alumno){
+        if(perteneceAlumnos(alumno)){
             Nodo actual = raiz;
-            for(char c : materia.toCharArray()){
+            for(char c : alumno.toCharArray()){
                 while(actual.valor != c){
                     actual = actual.hermano;
                 }
-                if(actual.alumnos == null){
+                if(actual.def==false){
                     actual = actual.hijo;
                 }else{
-                    actual.alumnos.insertarAlumno(alumno);
+                    actual.nroMaterias++;
                 }
             }
         }
+    }
+
+    public int materiasInscriptas(String alumno){
+        if(perteneceAlumnos(alumno)){
+            Nodo actual = raiz;
+            for(char c : alumno.toCharArray()){
+                while(actual.valor != c){
+                    actual = actual.hermano;
+                }
+                if(actual.def==false){
+                    actual = actual.hijo;
+                }else{
+                    return actual.nroMaterias;
+                }
+            }
+        }
+        return 0;
     }
 }

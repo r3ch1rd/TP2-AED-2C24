@@ -3,7 +3,7 @@ package aed;
 public class SistemaSIU {
 
     private trieCarreras Carreras;
-    // private trieAlumnos Alumnos;
+    private trieAlumnos AlumnosNroMaterias;
     // private materiasDeCarrera materiasDeCarrera;
 
     public static void main(String[] args){
@@ -53,7 +53,8 @@ public class SistemaSIU {
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
-        throw new UnsupportedOperationException("Método no implementado aún");
+        this.Carreras.insertarAlumno(carrera, materia, estudiante);
+        this.AlumnosNroMaterias.agregarMateriaAAlumno(estudiante);
     }
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
@@ -85,6 +86,6 @@ public class SistemaSIU {
     }
 
     public int materiasInscriptas(String estudiante){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return this.AlumnosNroMaterias.materiasInscriptas(estudiante);
     }
 }

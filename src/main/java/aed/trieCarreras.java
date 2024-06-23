@@ -183,4 +183,20 @@ public class trieCarreras {
         }
     }
 
+    public void insertarAlumno(String carrera, String materia, String alumno){
+        if(perteneceCarrera(carrera)){
+            Nodo actual = raiz;
+            for(char c : carrera.toCharArray()){
+                while(actual.valor != c){
+                    actual = actual.hermano;
+                }
+                if(actual.materias == null){
+                    actual = actual.hijo;
+                }else{
+                    actual.materias.insertarAlumno(materia, alumno);
+                }
+            }
+        }
+    }
+
 }
