@@ -82,8 +82,8 @@ public class trieMaterias {
             actual = actual.hijo;
             i++;
         }
+        if (padre.def==false){this.cantMaterias++;}
         padre.def = true;
-        this.cantMaterias++;
         if(padre.alumnos==null){padre.alumnos = new trieAlumnos();}
         if(padre.docentes==null){padre.docentes = new int[] {0,0,0,0};}
     }
@@ -216,6 +216,43 @@ public class trieMaterias {
         }else{
             return null;
         }
+    }
+
+    public String[] materias(){
+        String[] res = new String[cantMaterias];
+        String pref = "";
+        Nodo actual = raiz;
+        materias(actual, pref, res);
+        while(actual.hermano!=null){
+            materias(actual.hermano,pref,res);
+            actual = actual.hermano;
+        }
+        return res;
+    }
+
+    public void materias(Nodo n, String prefijo, String[] res){
+        if(n == null){
+            return;
+        }else{
+            if(n.def == true){
+                String materia = prefijo + n.valor;
+                res[nroElementos(res)] = materia;
+                if(n.hijo!=null){materias(n.hijo,materia,res);}
+            }else{
+                Nodo hijo = n.hijo;
+                materias(hijo,prefijo + n.valor,res);
+                while(hijo.hermano!=null){
+                    materias(hijo.hermano,prefijo + n.valor,res);
+                    hijo = hijo.hermano;
+                }
+            }
+        }
+    }
+
+    public int nroElementos(String[] lista){
+        int i = 0;
+        while(lista[i]!=null){i++;}
+        return i;
     }
 
 }

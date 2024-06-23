@@ -8,41 +8,6 @@ public class SistemaSIU {
 
 
     public static void main(String[] args){
-
-        trieCarreras carreras = new trieCarreras();
-
-        System.out.println("tests insertar/pertenece en trie carreras");
-        carreras.insertarCarrera("ciencias de datos");
-        carreras.insertarCarrera("ciencias de la computacion");
-        carreras.insertarCarrera("diseño de indumentaria");
-
-        System.out.println(carreras.perteneceCarrera("ciencias de datos"));
-        System.out.println(carreras.perteneceCarrera("ciencias de la computacion"));
-        System.out.println(carreras.perteneceCarrera("diseño de indumentaria"));
-
-        System.out.println("tests insertar/pertenece materia en trie carreras");
-        carreras.insertarMateria("ciencias de datos", "intro");
-        carreras.insertarMateria("ciencias de datos", "algo2/exalgo1");
-        carreras.insertarMateria("ciencias de la computacion", "programacion");
-        carreras.insertarMateria("ciencias de la computacion", "analisis 2");
-        carreras.insertarMateria("diseño de indumentaria","materiales 1");
-        carreras.insertarMateria("diseño de indumentaria","materiales 2");
-
-        System.out.println(carreras.perteneceMaterias("ciencias de datos","intro"));
-        System.out.println(carreras.perteneceMaterias("ciencias de datos","algo2/exalgo1"));
-        System.out.println(carreras.perteneceMaterias("ciencias de la computacion", "programacion"));
-        System.out.println(carreras.perteneceMaterias("ciencias de la computacion", "analisis 2"));
-        System.out.println(carreras.perteneceMaterias("diseño de indumentaria","materiales 1"));
-        System.out.println(carreras.perteneceMaterias("diseño de indumentaria","materiales 2"));
-
-        System.out.println("tests inscribir alumno");
-        carreras.insertarAlumno("ciencias de datos", "intro", "001/01");
-        carreras.insertarAlumno("ciencias de datos", "intro", "002/01");
-        carreras.insertarAlumno("ciencias de datos", "intro", "003/01");
-        System.out.println(3 == carreras.inscriptosEnMateria("ciencias de datos", "intro"));
-        System.out.println(0 == carreras.inscriptosEnMateria("ciencias de la computacion", "programacion"));
-        
-
         System.out.println("test sobre sistema");
         
         InfoMateria[] infoMaterias = new InfoMateria[] {
@@ -56,34 +21,38 @@ public class SistemaSIU {
         String[] estudiantes = new String[] {"123/23", "321/24", "122/99", "314/81", "391/18", "478/19", "942/20", "291/18", "382/19", "892/22", "658/13", "217/12", "371/11", "294/20"};
 
         SistemaSIU sistema = new SistemaSIU(infoMaterias, estudiantes);
-        
-        System.out.println("test docentes sobre sistema");
 
-        sistema.agregarDocente(CargoDocente.PROF, "Ciencias de la Computación", "Intro a la Programación");
-        sistema.agregarDocente(CargoDocente.PROF, "Ciencias de la Computación", "Intro a la Programación");
-        sistema.agregarDocente(CargoDocente.AY2, "Ciencias de la Computación", "Intro a la Programación");
-        sistema.agregarDocente(CargoDocente.AY2, "Ciencias de la Computación", "Intro a la Programación");
-        sistema.agregarDocente(CargoDocente.AY1, "Ciencias de la Computación", "Intro a la Programación");
+        System.out.println("test carreras");
+        String[] car = sistema.carreras();
+        System.out.println(car[0]);
+        System.out.println(car[1]);
+        System.out.println(car[2]);
+        System.out.println(car[3]);
+        System.out.println(car[4]);
+        System.out.println(car[5]);
 
+        System.out.println("test materias");
+        String[] mat = sistema.materias("Ciencias de Datos");
+        System.out.println(mat[0]);
+        System.out.println(mat[1]);
+        System.out.println(mat[2]);
+        System.out.println(mat[3]);
+        System.out.println(mat[4]);
+        System.out.println(mat[5]);
+        System.out.println(mat[6]);
 
-        int[] plant2 = sistema.plantelDocente("Algoritmos1", "Ciencias de Datos");
-        System.out.println("Algoritmos1 Ciencias de Datos");
-        System.out.println(plant2[0]);
-        System.out.println(plant2[1]);
-        System.out.println(plant2[2]);
-        System.out.println(plant2[3]);
+        System.out.println("test intro compu");
+        InfoMateria[] infoMaterias2 = new InfoMateria[] {
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Intro a la Programación")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Algoritmos")})
+        };
+        String[] estudiantes2 = new String[] {"123/23", "321/24", "122/99", "314/81", "391/18", "478/19", "942/20", "291/18", "382/19", "892/22", "658/13", "217/12", "371/11", "294/20"};
 
-        int[] plant = sistema.plantelDocente("Intro a la Programación", "Ciencias de la Computación");
-        System.out.println("Intro a la Programación Ciencias de la Computación");
-        System.out.println(plant[0]);
-        System.out.println(plant[1]);
-        System.out.println(plant[2]);
-        System.out.println(plant[3]);
+        SistemaSIU sistema2 = new SistemaSIU(infoMaterias2, estudiantes2);
 
-
-        System.out.println("tests eliminar carreras");
-        carreras.eliminarCarrera("diseño de indumentaria");
-        System.out.println(carreras.perteneceCarrera("diseño de indumentaria"));
+        String[] com = sistema2.materias("Ciencias de la Computación");
+        System.out.println(com[0]);
+        System.out.println(com[1]);
 
     }
     
@@ -157,11 +126,11 @@ public class SistemaSIU {
     }
 
     public String[] carreras(){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return this.Carreras.carreras();
     }
 
     public String[] materias(String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        return this.Carreras.materias(carrera);
     }
 
     public int materiasInscriptas(String estudiante){

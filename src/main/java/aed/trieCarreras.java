@@ -13,6 +13,7 @@ public class trieCarreras {
         private Nodo hijo;
         private boolean def;
         private trieMaterias materias;
+        private String nombre;
 
         Nodo(char v){
             valor = v;
@@ -80,9 +81,10 @@ public class trieCarreras {
             actual = actual.hijo;
             i++;
         }
+        if (padre.def==false){this.cantCarreras++;}
         padre.def = true;
         if (padre.materias==null){padre.materias = new trieMaterias();}
-        this.cantCarreras++;
+        if (padre.nombre==null){padre.nombre = new String(carrera);}
     }
 
     public boolean perteneceCarrera(String carrera){
@@ -285,6 +287,59 @@ public class trieCarreras {
                 }
             }
             return actual.materias.plantelDocente(materia);
+        }else{
+            return null;
+        }
+    }
+
+    public String[] carreras(){
+        String[] res = new String[cantCarreras];
+        String pref = "";
+        Nodo actual = raiz;
+        carreras(actual, pref, res);
+        while(actual.hermano!=null){
+            carreras(actual.hermano,pref,res);
+            actual = actual.hermano;
+        }
+        return res;
+    }
+
+    public void carreras(Nodo n, String prefijo, String[] res){
+        if(n == null){
+            return;
+        }else{
+            if(n.def == true){
+                String carrera = prefijo + n.valor;
+                res[ultimoElem(res)] = carrera;
+            }else{
+                Nodo hijo = n.hijo;
+                carreras(hijo,prefijo + n.valor,res);
+                while(hijo.hermano!=null){
+                    carreras(hijo.hermano,prefijo + n.valor,res);
+                    hijo = hijo.hermano;
+                }
+            }
+        }
+    }
+
+    public int ultimoElem(String[] lista){
+        int i = 0;
+        while(lista[i]!=null){i++;}
+        return i;
+    }
+
+    public String[] materias(String carrera){
+        if(this.perteneceCarrera(carrera)){
+            Nodo actual = raiz;
+            for(int i=0;i<carrera.length();i++){
+                while(actual.valor != carrera.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<(carrera.length()-1)){
+                    actual = actual.hijo;
+                }
+            }
+            return actual.materias.materias();
         }else{
             return null;
         }
