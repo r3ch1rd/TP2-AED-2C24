@@ -10,6 +10,8 @@ public class trieAlumnos {
         private Nodo hermano;
         private Nodo hijo;
         private boolean def;
+        
+        // solo se usa para el trie alumnosNroMaterias
         private int nroMaterias;
 
         Nodo(char v){
@@ -21,6 +23,10 @@ public class trieAlumnos {
     public trieAlumnos(){
         cantAlumnos = 0;
         raiz = null;
+    }
+
+    public int cantAlumnos(){
+        return this.cantAlumnos;
     }
 
     public void insertarAlumno(String alumno){
@@ -76,14 +82,13 @@ public class trieAlumnos {
             padre = actual;
             actual = actual.hijo;
             i++;
-        }
+        } 
         padre.def = true;
         this.cantAlumnos++;
 
-        // solo se usa para el trie de alumnos y el nro de materias insprictas
+        // solo se usa para el trie alumnosNroMaterias
         padre.nroMaterias = 0;
     }
-
 
     public boolean perteneceAlumnos(String alumno){
         if(raiz == null){ //no hay alumnos
@@ -106,7 +111,7 @@ public class trieAlumnos {
         }
     }
 
-    // solo se usa para el trie de alumnos y el nro de materias insprictas
+    // solo se usa para el trie alumnosNroMaterias
     public void agregarMateriaAAlumno(String alumno){
         if(perteneceAlumnos(alumno)){
             Nodo actual = raiz;
@@ -123,6 +128,7 @@ public class trieAlumnos {
         }
     }
 
+    // solo se usa para el trie alumnosNroMaterias
     public int materiasInscriptas(String alumno){
         if(perteneceAlumnos(alumno)){
             Nodo actual = raiz;

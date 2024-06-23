@@ -6,6 +6,7 @@ public class SistemaSIU {
     private trieAlumnos AlumnosNroMaterias;
     // private materiasDeCarrera materiasDeCarrera;
 
+
     public static void main(String[] args){
 
         trieCarreras carreras = new trieCarreras();
@@ -34,6 +35,38 @@ public class SistemaSIU {
         System.out.println(carreras.perteneceMaterias("diseño de indumentaria","materiales 1"));
         System.out.println(carreras.perteneceMaterias("diseño de indumentaria","materiales 2"));
 
+        System.out.println("tests inscribir alumno");
+        carreras.insertarAlumno("ciencias de datos", "intro", "001/01");
+        carreras.insertarAlumno("ciencias de datos", "intro", "002/01");
+        carreras.insertarAlumno("ciencias de datos", "intro", "003/01");
+        System.out.println(3 == carreras.inscriptosEnMateria("ciencias de datos", "intro"));
+        System.out.println(0 == carreras.inscriptosEnMateria("ciencias de la computacion", "programacion"));
+        
+
+        System.out.println("test sobre sistema");
+        
+        InfoMateria[] infoMaterias = new InfoMateria[] {
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Intro a la Programación"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos1")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Algoritmos"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos2")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Técnicas de Diseño de Algoritmos"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos3")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Análisis I"), new ParCarreraMateria("Ciencias de Datos", "Análisis I"), new ParCarreraMateria("Ciencias Físicas", "Matemática 1"), new ParCarreraMateria("Ciencias Químicas", "Análisis Matemático I"), new ParCarreraMateria("Ciencias Matemáticas", "Análisis I") }),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias Biológicas", "Química General e Inorgánica 1"), new ParCarreraMateria("Ciencias Químicas", "Química General")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias Matemáticas", "Análisis II"), new ParCarreraMateria("Ciencias de Datos", "Análisis II"), new ParCarreraMateria("Ciencias Físicas", "Matemática 3"), new ParCarreraMateria("Ciencias Químicas", "Análisis Matemático II")})
+        };
+        String[] estudiantes = new String[] {"123/23", "321/24", "122/99", "314/81", "391/18", "478/19", "942/20", "291/18", "382/19", "892/22", "658/13", "217/12", "371/11", "294/20"};
+
+        SistemaSIU sistema = new SistemaSIU(infoMaterias, estudiantes);
+        
+        System.out.println("test inscriptos sobre sistema");
+
+        sistema.inscribir(estudiantes[6], "Ciencias Físicas", "Matemática 3");
+
+
+        System.out.println(sistema.inscriptos("Análisis I", "Ciencias de Datos"));
+        System.out.println(sistema.inscriptos("Matemática 3", "Ciencias Físicas"));
+        System.out.println(sistema.inscriptos("Análisis I", "Ciencias de la Computación"));
+
+
         System.out.println("tests eliminar carreras");
         carreras.eliminarCarrera("diseño de indumentaria");
         System.out.println(carreras.perteneceCarrera("diseño de indumentaria"));
@@ -49,7 +82,16 @@ public class SistemaSIU {
     }
 
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        
+        this.AlumnosNroMaterias = new trieAlumnos();
+        for (String alumno : libretasUniversitarias){
+            this.AlumnosNroMaterias.insertarAlumno(alumno);
+        }
+
+        this.Carreras = new trieCarreras();
+        for (InfoMateria infoMateria : infoMaterias){
+            this.Carreras.insertarInfo(infoMateria);
+        }
     }
 
     public void inscribir(String estudiante, String carrera, String materia){
@@ -70,7 +112,13 @@ public class SistemaSIU {
     }
 
     public int inscriptos(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        int res = 0;
+        InfoMateria infomateria = this.Carreras.materiasIguales(carrera,materia);
+        for (ParCarreraMateria parCarreraMateria : infomateria.getParesCarreraMateria()){
+            res += this.Carreras.inscriptosEnMateria(parCarreraMateria.getCarrera(),
+                                                     parCarreraMateria.getNombreMateria());
+        }
+        return res; 
     }
 
     public boolean excedeCupo(String materia, String carrera){

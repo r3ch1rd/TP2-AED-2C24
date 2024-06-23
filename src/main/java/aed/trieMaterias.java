@@ -11,6 +11,7 @@ public class trieMaterias {
         private Nodo hijo;
         private boolean def;
         private trieAlumnos alumnos;
+        private InfoMateria info;
 
         Nodo(char v){
             valor = v;
@@ -79,12 +80,11 @@ public class trieMaterias {
         }
         padre.def = true;
         this.cantMaterias++;
-        padre.alumnos = new trieAlumnos();
+        if(padre.alumnos==null){padre.alumnos = new trieAlumnos();}
     }
 
-
     public boolean perteneceMaterias(String materia){
-        if(raiz == null){ //no hay carreras
+        if(raiz == null){ //no hay materias
             return false;
         } else { //hay carreras
             int i = 0;
@@ -103,20 +103,68 @@ public class trieMaterias {
             return i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true; 
         }
     }
-
+    
     public void insertarAlumno(String materia, String alumno){
         if(perteneceMaterias(materia)){
             Nodo actual = raiz;
-            for(char c : materia.toCharArray()){
-                while(actual.valor != c){
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
                     actual = actual.hermano;
                 }
-                if(actual.alumnos == null){
+                if(i<materia.length()-1){
                     actual = actual.hijo;
-                }else{
-                    actual.alumnos.insertarAlumno(alumno);
                 }
             }
+            actual.alumnos.insertarAlumno(alumno);
+        }
+    }
+
+    public int inscriptos(String materia){
+        if(perteneceMaterias(materia)){
+            Nodo actual = raiz;
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<materia.length()-1){
+                    actual = actual.hijo;
+                }
+            }
+            return actual.alumnos.cantAlumnos();
+        }else{
+            return 0;
+        }
+    }
+
+    public void adjuntarInfoMateriasIguales(String materia, InfoMateria info){
+        if(perteneceMaterias(materia)){
+            Nodo actual = raiz;
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<materia.length()-1){
+                    actual = actual.hijo;
+                }
+            }
+            actual.info = info;
+        }
+    }
+
+    public InfoMateria materiasIguales(String materia){
+        if(perteneceMaterias(materia)){
+            Nodo actual = raiz;
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<(materia.length()-1)){
+                    actual = actual.hijo;
+                }
+            }
+            return actual.info;
+        }else{
+            return null;
         }
     }
 }
