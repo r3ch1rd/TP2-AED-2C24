@@ -22,24 +22,22 @@ public class SistemaSIU {
 
         SistemaSIU sistema = new SistemaSIU(infoMaterias, estudiantes);
 
-        System.out.println("test carreras");
-        String[] car = sistema.carreras();
-        System.out.println(car[0]);
-        System.out.println(car[1]);
-        System.out.println(car[2]);
-        System.out.println(car[3]);
-        System.out.println(car[4]);
-        System.out.println(car[5]);
+        System.out.println("Compu con intro");
 
-        System.out.println("test materias");
-        String[] mat = sistema.materias("Ciencias de Datos");
-        System.out.println(mat[0]);
-        System.out.println(mat[1]);
-        System.out.println(mat[2]);
-        System.out.println(mat[3]);
-        System.out.println(mat[4]);
-        System.out.println(mat[5]);
-        System.out.println(mat[6]);
+        String[] com = sistema.materias("Ciencias de la Computación");
+        System.out.println(com[0]);
+        System.out.println(com[1]);
+        System.out.println(com[2]);
+        System.out.println(com[3]);
+
+        System.out.println("Compu sin intro");
+
+        sistema.cerrarMateria("Algoritmos","Ciencias de la Computación");
+        String[] com2 = sistema.materias("Ciencias de la Computación");
+        System.out.println(com2[0]);
+        System.out.println(com2[1]);
+        System.out.println(com2[2]);
+        System.out.println(com2[3]);
 
         System.out.println("test intro compu");
         InfoMateria[] infoMaterias2 = new InfoMateria[] {
@@ -50,9 +48,9 @@ public class SistemaSIU {
 
         SistemaSIU sistema2 = new SistemaSIU(infoMaterias2, estudiantes2);
 
-        String[] com = sistema2.materias("Ciencias de la Computación");
-        System.out.println(com[0]);
-        System.out.println(com[1]);
+        // String[] com = sistema2.materias("Ciencias de la Computación");
+        // System.out.println(com[0]);
+        // System.out.println(com[1]);
 
     }
     
@@ -97,7 +95,7 @@ public class SistemaSIU {
     }
 
     public void cerrarMateria(String materia, String carrera){
-        throw new UnsupportedOperationException("Método no implementado aún");	    
+        this.Carreras.eliminarMateria(carrera, materia);
     }
 
     public int inscriptos(String materia, String carrera){

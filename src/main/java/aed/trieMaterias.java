@@ -255,4 +255,51 @@ public class trieMaterias {
         return i;
     }
 
+    public void eliminarMateria(String materia){
+        if(raiz != null){ //si hay materia...
+            int i = 0;
+            Nodo actual = raiz;
+            Nodo padre = null;
+            Nodo ultimoNodoUtil = null;
+            int caso = 0;
+            while (actual != null && i < materia.length()) {
+                while (actual != null && actual.valor != materia.charAt(i)){
+                    if (actual.hijo != null || actual.def == true) {
+                        ultimoNodoUtil = actual;
+                        caso = 1;
+                    }
+                    actual = actual.hermano;
+                } // actual == null || actual.valor == materia.charAt(i)
+                if (actual != null && actual.valor == materia.charAt(i)) {
+                    i++;
+                    padre = actual;
+                    actual = actual.hijo;
+                    if (actual !=null && actual.hermano != null) { //caso = 2;
+                        ultimoNodoUtil = padre;
+                    }
+                }
+            }
+            if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieCarreras...
+                if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
+                    if (raiz.hermano == null) {
+                        raiz = null;
+                    } else {
+                        raiz = raiz.hermano;
+                    }
+                } else if (caso == 1) {
+                    if (ultimoNodoUtil.hermano.hermano == null) {
+                        ultimoNodoUtil.hermano = null;   
+                    } else {
+                        ultimoNodoUtil.hermano = ultimoNodoUtil.hermano.hermano;
+                    }
+                } else { //caso == 2
+                    ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;
+                }
+                cantMaterias--;
+            } // si no pertenece, no hago nada
+        } // si no hay materias, no hago nada
+    }
+
+
+
 }
