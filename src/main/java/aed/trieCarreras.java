@@ -3,11 +3,14 @@ package aed;
 import aed.SistemaSIU.CargoDocente;
 
 // Invariante de representación:
-//  pred InvRepTrie (e: Trie){
-//      esTrie(e) = true;
-//  }
-//  esArbol() = todosLosNodosTienenPadre() && 
+//  pred InvRepTrieCarreras (e: trieCarreras)
+//      {esTrie(e) == true}
 //  
+//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
+//
+//  esArbol(e) = Todos los nodos, salvo la raiz, tienen un solo padre. La raiz no tiene padre.
+//  todosNodosUtiles(e) = Todo nodo no definido tiene hijos.
+//  arbolEnOrdenLexicografico(e) = Toda lista de hijos de un nodo está ordenada en orden lexicográfico.
 
 public class trieCarreras {
 

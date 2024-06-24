@@ -1,7 +1,17 @@
 package aed;
-import java.util.*;
 
 import aed.SistemaSIU.CargoDocente;
+
+// Invariante de representación:
+//  pred InvRepTrieMaterias (e: trieMaterias)
+//      {esTrie(e) == true}
+//  
+//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
+//
+//  esArbol(e) = todos los nodos, salvo la raiz, tienen un solo padre
+//  todosNodosUtiles(e) = todo nodo no definido tiene hijos 
+//  arbolEnOrdenLexicografico(e) = toda lista de hijos de un nodo está ordenada en orden lexicográfico
+
 
 public class trieMaterias {
     
