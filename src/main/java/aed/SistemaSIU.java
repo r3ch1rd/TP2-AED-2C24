@@ -1,20 +1,10 @@
 package aed;
 
-// Invariante de representación:
-//  pred InvRepSistemaSIU (s: SistemaSIU)
-//      {esTrie(s.Carreras) == true && esTrie(s.AlumnosNroMaterias) == true}
-//  
-//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e)
-// 
-//  esArbol(e) = todos los nodos, salvo la raiz, tienen un solo padre
-//  todosNodosUtiles(e) = todo nodo no definido tiene hijos 
-//  arbolEnOrdenLexicografico(e) = toda lista de hijos de un nodo está ordenada en orden lexicográfico
-
-
 public class SistemaSIU {
 
     private trieCarreras Carreras;
     private trieAlumnos AlumnosNroMaterias;
+    // private materiasDeCarrera materiasDeCarrera;
 
 
     public static void main(String[] args){
@@ -105,7 +95,7 @@ public class SistemaSIU {
     }
 
     public void cerrarMateria(String materia, String carrera){
-        this.Carreras.eliminarMateria(carrera, materia);
+        this.Carreras.eliminarMateria(carrera, materia, AlumnosNroMaterias);
     }
 
     public int inscriptos(String materia, String carrera){
