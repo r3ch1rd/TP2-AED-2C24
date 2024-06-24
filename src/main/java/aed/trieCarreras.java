@@ -3,11 +3,14 @@ package aed;
 import aed.SistemaSIU.CargoDocente;
 
 // Invariante de representación:
-//  pred InvRepTrie (e: Trie){
-//      esTrie(e) = true;
-//  }
-//  esArbol() = todosLosNodosTienenPadre() && 
+//  pred InvRepTrieCarreras (e: trieCarreras)
+//      {esTrie(e) == true}
 //  
+//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
+//
+//  esArbol(e) = Todos los nodos, salvo la raiz, tienen un solo padre. La raiz no tiene padre.
+//  todosNodosUtiles(e) = Todo nodo no definido tiene hijos.
+//  arbolEnOrdenLexicografico(e) = Toda lista de hijos de un nodo está ordenada en orden lexicográfico.
 
 public class trieCarreras {
 
@@ -228,11 +231,11 @@ public class trieCarreras {
     public void adjuntarInfoMateriasIguales(String carrera, String materia, InfoMateria info){
         if(perteneceCarrera(carrera)){
             Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
+            for(char c : carrera.toCharArray()){
+                while(actual.valor != c){
                     actual = actual.hermano;
                 }
-                if(i<carrera.length()-1){
+                if(actual.materias == null){
                     actual = actual.hijo;
                 }
             }
@@ -352,7 +355,8 @@ public class trieCarreras {
         }
     }
 
-    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){
+
+    public void eliminarMateria(String carrera, String materia){
         if(perteneceCarrera(carrera)){
             Nodo actual = raiz;
             for(int i=0;i<carrera.length();i++){
@@ -363,7 +367,7 @@ public class trieCarreras {
                     actual = actual.hijo;
                 }
             }
-            actual.materias.eliminarMateria(this, alumnos, materia);
+            actual.materias.eliminarMateria(materia);
         }
     }
 

@@ -1,5 +1,16 @@
 package aed;
 
+// Invariante de representación:
+//  pred InvRepTrieAlumnos (e: trieAlumnos)
+//      {esTrie(e) == true}
+//  
+//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
+//
+//  esArbol(e) = todos los nodos, salvo la raiz, tienen un solo padre
+//  todosNodosUtiles(e) = todo nodo no definido tiene hijos 
+//  arbolEnOrdenLexicografico(e) = toda lista de hijos de un nodo está ordenada en orden lexicográfico
+
+
 public class trieAlumnos {
     
     private Nodo raiz;
@@ -11,7 +22,7 @@ public class trieAlumnos {
         private Nodo hijo;
         private boolean def;
         
-        // solo se usa para el trie alumnosNroMaterias y cerrarCarrera
+        // solo se usa para el trie alumnosNroMaterias
         private int nroMaterias;
 
         Nodo(char v){
@@ -83,9 +94,8 @@ public class trieAlumnos {
             actual = actual.hijo;
             i++;
         } 
+        if (padre.def==false){this.cantAlumnos++;}
         padre.def = true;
-        this.cantAlumnos++;
-
         // solo se usa para el trie alumnosNroMaterias
         padre.nroMaterias = 0;
     }
@@ -144,59 +154,5 @@ public class trieAlumnos {
             }
         }
         return 0;
-    }
-    
-    // solo se usa para cerrarMateria
-    public void eliminarMateriaAAlumno(String alumno){
-        if(perteneceAlumnos(alumno)){
-            Nodo actual = raiz;
-            for(char c : alumno.toCharArray()){
-                while(actual.valor != c){
-                    actual = actual.hermano;
-                }
-                if(actual.def==false){
-                    actual = actual.hijo;
-                }else{
-                    actual.nroMaterias--;
-                }
-            }
-        }
-    }
-
-
-    public String[] alumnos(){
-        String[] res = new String[cantAlumnos];
-        String pref = "";
-        Nodo actual = raiz;
-        alumnos(actual, pref, res);
-        while(actual.hermano!=null){
-            alumnos(actual.hermano,pref,res);
-            actual = actual.hermano;
-        }
-        return res;
-    }
-
-    public void alumnos(Nodo n, String prefijo, String[] res){
-        if(n == null){
-            return;
-        }else{
-            if(n.def == true){
-                String alumno = prefijo + n.valor;
-                res[ultimoElem(res)] = alumno;
-            }else{
-                Nodo hijo = n.hijo;
-                alumnos(hijo,prefijo + n.valor,res);
-                while(hijo.hermano!=null){
-                    alumnos(hijo.hermano,prefijo + n.valor,res);
-                    hijo = hijo.hermano;
-                }
-            }
-        }
-    }
-
-    public int ultimoElem(String[] lista){
-        int i = 0;
-        while(lista[i]!=null){i++;}
-        return i;
     }
 }

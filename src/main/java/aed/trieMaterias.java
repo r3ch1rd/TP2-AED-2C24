@@ -1,7 +1,17 @@
 package aed;
 
-
 import aed.SistemaSIU.CargoDocente;
+
+// Invariante de representación:
+//  pred InvRepTrieMaterias (e: trieMaterias)
+//      {esTrie(e) == true}
+//  
+//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
+//
+//  esArbol(e) = todos los nodos, salvo la raiz, tienen un solo padre
+//  todosNodosUtiles(e) = todo nodo no definido tiene hijos 
+//  arbolEnOrdenLexicografico(e) = toda lista de hijos de un nodo está ordenada en orden lexicográfico
+
 
 public class trieMaterias {
     
@@ -255,7 +265,7 @@ public class trieMaterias {
         return i;
     }
 
-    public void eliminarMateria(trieCarreras Carreras, trieAlumnos trieAlumnos, String materia){
+    public void eliminarMateria(String materia){
         if(raiz != null){ //si hay materia...
             int i = 0;
             Nodo actual = raiz;
@@ -280,8 +290,6 @@ public class trieMaterias {
                 }
             }
             if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieCarreras...
-                InfoMateria infomateria = padre.info;
-                String[] alumnos = padre.alumnos.alumnos();
                 if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
                     if (raiz.hermano == null) {
                         raiz = null;
@@ -298,18 +306,8 @@ public class trieMaterias {
                     ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;
                 }
                 cantMaterias--;
-                for (ParCarreraMateria par : infomateria.getParesCarreraMateria()) {
-                    if (Carreras.perteneceMaterias(par.getCarrera(), par.getNombreMateria())) {
-                        Carreras.eliminarMateria(par.getCarrera(),par.getNombreMateria(), trieAlumnos);
-                    }
-                }
-                for (String alumno : alumnos) {
-                    trieAlumnos.eliminarMateriaAAlumno(alumno);
-                }
             } // si no pertenece, no hago nada
         } // si no hay materias, no hago nada
     }
-
-
 
 }
