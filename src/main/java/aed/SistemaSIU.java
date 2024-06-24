@@ -108,6 +108,7 @@ public class SistemaSIU {
         return res; 
     }
 
+    // excedeCupo es O(1) pues define una variable y chequea 4 condiciones (en caso de cimplirse, cambia valor) y todo es es O(1)
     public boolean excedeCupo(int inscriptos, int[] docentes, String materia, String carrera){
         boolean res = false;
         if (docentes[0]*250<inscriptos){res = true;}
@@ -117,6 +118,9 @@ public class SistemaSIU {
         return res;
     }
 
+    //inscriptos es O(|C| + |m|)
+    //plantelDocente es O(|c| + |m|)
+    // Entonces excedeCupo ES O(2 * |c| + |m|) =  O(|c| + |m|)
     public boolean excedeCupo(String materia, String carrera){
         return excedeCupo(this.inscriptos(materia, carrera),
                           this.plantelDocente(materia, carrera),
