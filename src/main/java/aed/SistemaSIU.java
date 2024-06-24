@@ -136,7 +136,8 @@ public class SistemaSIU {
     }
 
     //Complejidad
-//
+// materiasInscriptas(estudiante) es O(1) pues es recorrer el trie AlumnosNroMaterias con el String
+// estudiante que está acotado.
 
     public int materiasInscriptas(String estudiante){
         return this.AlumnosNroMaterias.materiasInscriptas(estudiante);
