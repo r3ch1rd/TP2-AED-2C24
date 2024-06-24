@@ -229,15 +229,19 @@ public class trieMaterias {
     }
 
     public String[] materias(){
-        String[] res = new String[cantMaterias];
-        String pref = "";
-        Nodo actual = raiz;
-        materias(actual, pref, res);
-        while(actual.hermano!=null){
-            materias(actual.hermano,pref,res);
-            actual = actual.hermano;
+        if (cantMaterias !=0 ) {
+            String[] res = new String[cantMaterias];
+            String pref = "";
+            Nodo actual = raiz;
+            materias(actual, pref, res);
+            while(actual.hermano!=null){
+                materias(actual.hermano,pref,res);
+                actual = actual.hermano;
+            }
+            return res; 
+        } else {
+            return new String[0];
         }
-        return res;
     }
 
     public void materias(Nodo n, String prefijo, String[] res){
@@ -292,7 +296,12 @@ public class trieMaterias {
             if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieCarreras...
                 InfoMateria infomateria = padre.info;
                 String[] alumnos = padre.alumnos.alumnos();
-                if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
+                if (padre.hijo != null) { // caso -1 agregado despues
+                    padre.def = false;
+                    padre.alumnos = null;
+                    padre.docentes = null;
+                    padre.info = null;
+                } else if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
                     if (raiz.hermano == null) {
                         raiz = null;
                     } else {
