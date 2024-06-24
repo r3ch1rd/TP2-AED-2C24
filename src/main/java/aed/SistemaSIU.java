@@ -1,21 +1,59 @@
 package aed;
 
-// Invariante de representación:
-//  pred InvRepSistemaSIU (s: SistemaSIU)
-//      {esTrie(s.Carreras) == true && esTrie(s.AlumnosNroMaterias) == true}
-//  
-//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e)
-// 
-//  esArbol(e) = todos los nodos, salvo la raiz, tienen un solo padre
-//  todosNodosUtiles(e) = todo nodo no definido tiene hijos 
-//  arbolEnOrdenLexicografico(e) = toda lista de hijos de un nodo está ordenada en orden lexicográfico
-
-
 public class SistemaSIU {
 
     private trieCarreras Carreras;
     private trieAlumnos AlumnosNroMaterias;
+    // private materiasDeCarrera materiasDeCarrera;
 
+
+    public static void main(String[] args){
+        System.out.println("test sobre sistema");
+        
+        InfoMateria[] infoMaterias = new InfoMateria[] {
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Intro a la Programación"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos1")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Algoritmos"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos2")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Técnicas de Diseño de Algoritmos"), new ParCarreraMateria("Ciencias de Datos", "Algoritmos3")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Análisis I"), new ParCarreraMateria("Ciencias de Datos", "Análisis I"), new ParCarreraMateria("Ciencias Físicas", "Matemática 1"), new ParCarreraMateria("Ciencias Químicas", "Análisis Matemático I"), new ParCarreraMateria("Ciencias Matemáticas", "Análisis I") }),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias Biológicas", "Química General e Inorgánica 1"), new ParCarreraMateria("Ciencias Químicas", "Química General")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias Matemáticas", "Análisis II"), new ParCarreraMateria("Ciencias de Datos", "Análisis II"), new ParCarreraMateria("Ciencias Físicas", "Matemática 3"), new ParCarreraMateria("Ciencias Químicas", "Análisis Matemático II")})
+        };
+        String[] estudiantes = new String[] {"123/23", "321/24", "122/99", "314/81", "391/18", "478/19", "942/20", "291/18", "382/19", "892/22", "658/13", "217/12", "371/11", "294/20"};
+
+        SistemaSIU sistema = new SistemaSIU(infoMaterias, estudiantes);
+
+        System.out.println("Compu con intro");
+
+        String[] com = sistema.materias("Ciencias de la Computación");
+        System.out.println(com[0]);
+        System.out.println(com[1]);
+        System.out.println(com[2]);
+        System.out.println(com[3]);
+
+        System.out.println("Compu sin intro");
+
+        sistema.cerrarMateria("Algoritmos","Ciencias de la Computación");
+        String[] com2 = sistema.materias("Ciencias de la Computación");
+        System.out.println(com2[0]);
+        System.out.println(com2[1]);
+        System.out.println(com2[2]);
+        System.out.println(com2[3]);
+
+        System.out.println("test intro compu");
+        InfoMateria[] infoMaterias2 = new InfoMateria[] {
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Intro a la Programación")}),
+            new InfoMateria(new ParCarreraMateria[] {new ParCarreraMateria("Ciencias de la Computación", "Algoritmos")})
+        };
+        String[] estudiantes2 = new String[] {"123/23", "321/24", "122/99", "314/81", "391/18", "478/19", "942/20", "291/18", "382/19", "892/22", "658/13", "217/12", "371/11", "294/20"};
+
+        SistemaSIU sistema2 = new SistemaSIU(infoMaterias2, estudiantes2);
+
+        // String[] com = sistema2.materias("Ciencias de la Computación");
+        // System.out.println(com[0]);
+        // System.out.println(com[1]);
+
+    }
+    
 
     enum CargoDocente{
         AY2,
@@ -23,11 +61,6 @@ public class SistemaSIU {
         JTP,
         PROF
     }
-
-// Complejidad
-// insetarAlumno tiene una complejidad O(1) pues el String alumno es acotado
-// por lo que insetar todos los alumnos al trie AlumnosNroMaterias es de O(E).
-// 
 
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
         
@@ -42,24 +75,10 @@ public class SistemaSIU {
         }
     }
 
-    // Complejidad
-// insetarAlumno(estudiante,carrera,materia) tiene una complejidad O(|carrera|+|materia|)
-// pues se recorre el trieCarreras O(|carrera|), luego el trieMaterias O(|materia|) y luego el
-// trieAlumnos O(1) pues el String estudiante es acotado.
-// agregarMateriAAlumno es recorrer el trie AlumnosNroMaterias, lo es O(1).
-// La suma da la complejidad de inscribir() que es O(|carrera|+|materia|)
-
     public void inscribir(String estudiante, String carrera, String materia){
         this.Carreras.insertarAlumno(carrera, materia, estudiante);
         this.AlumnosNroMaterias.agregarMateriaAAlumno(estudiante);
     }
-
-    // Complejidad
-// materiasIguales(carrera,materia) es O(|carrera|+|materia|) pues es recorrer el trieCarreras y 
-// el trieMaterias.
-// agregarDocente(cargo,carrera,materia) es O(|carrera|+|materia|) pues también es recorrer el
-// trieCarreras y el trieMaterias, más agregar un docente O(1).
-// Luego agregarDocente es O(|carrera|+|materia|).
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
 
@@ -76,12 +95,7 @@ public class SistemaSIU {
     }
 
     public void cerrarMateria(String materia, String carrera){
-
-        InfoMateria infomateria = this.Carreras.materiasIguales(carrera,materia);
-        for (ParCarreraMateria parCarreraMateria : infomateria.getParesCarreraMateria()){
-            this.Carreras.eliminarMateria(parCarreraMateria.getCarrera(),
-                                          parCarreraMateria.getNombreMateria());
-        }
+        this.Carreras.eliminarMateria(carrera, materia, AlumnosNroMaterias);
     }
 
     public int inscriptos(String materia, String carrera){
@@ -120,5 +134,4 @@ public class SistemaSIU {
     public int materiasInscriptas(String estudiante){
         return this.AlumnosNroMaterias.materiasInscriptas(estudiante);
     }
-
 }
