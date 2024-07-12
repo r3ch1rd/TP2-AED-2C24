@@ -44,24 +44,24 @@ public class trieAlumnos {
         Nodo actual = raiz;
         Nodo hermanoMenor = null;
         Nodo padre = null;
-        if(raiz == null){ //no hay alumnos
-            raiz = new Nodo(alumno.charAt(0));
-            padre = raiz;
-            actual = raiz.hijo;
-            i = 1;
+        if(raiz == null){ //no hay alumnos             //Guarda: O(1) //Rama: 5 * O(1) = O(1)
+            raiz = new Nodo(alumno.charAt(0));         //O(1)
+            padre = raiz;                              //O(1) 
+            actual = raiz.hijo;                        //O(1)
+            i = 1;                                     //O(1)
         } else { //hay alumnos
-            if (raiz.valor > alumno.charAt(0)) {
-                Nodo nuevaRaiz = new Nodo(alumno.charAt(0));
-                nuevaRaiz.hermano = raiz;
-                raiz = nuevaRaiz;
-                padre = raiz;
-                actual = raiz.hijo;
-                i = 1;
+            if (raiz.valor > alumno.charAt(0)) {                   //Guarda: O(1) //Rama: 7 * O(1) = O(1)
+                Nodo nuevaRaiz = new Nodo(alumno.charAt(0));       //O(1)
+                nuevaRaiz.hermano = raiz;                          //O(1)
+                raiz = nuevaRaiz;                                  //O(1)
+                padre = raiz;                                      //O(1)
+                actual = raiz.hijo;                                //O(1)
+                i = 1;                                             //O(1)
             } else {
                 while (actual != null && i < alumno.length()) {
-                    while (actual != null && actual.valor < alumno.charAt(i)){
-                        hermanoMenor = actual;
-                        actual = actual.hermano;
+                    while (actual != null && actual.valor < alumno.charAt(i)){    //Guarda: O(1) + O(1) = O(1) // Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de 3*O(1) = 256*3*O(1) = O(1)
+                        hermanoMenor = actual;                                    //O(1)
+                        actual = actual.hermano;                                  //O(1)
                     } // actual == null || actual.valor >= carrera.charAt(i)
                     if (actual != null && actual.valor > alumno.charAt(i)) {
                         Nodo nuevo = new Nodo(alumno.charAt(i));
