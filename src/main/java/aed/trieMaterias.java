@@ -98,24 +98,24 @@ public class trieMaterias {
         if(padre.docentes==null){padre.docentes = new int[] {0,0,0,0};}    //O(1)
     }
 
-    public boolean perteneceMaterias(String materia){
-        if(raiz == null){ //no hay materias
-            return false;
-        } else { //hay carreras
-            int i = 0;
-            Nodo actual = raiz;
-            Nodo padre = null;
-            while (actual != null && i < materia.length()) {
-                while (actual != null && actual.valor != materia.charAt(i)){
-                    actual = actual.hermano;
+    public boolean perteneceMaterias(String materia){    //Complejidad de la función: O(|m|) 
+        if(raiz == null){ //no hay materias, mejor caso   //O(1)
+            return false;                      //O(1)  
+        } else { //hay carreras, peor caso 
+            int i = 0;            //O(1)
+            Nodo actual = raiz;    //O(1)
+            Nodo padre = null;    //O(1)
+            while (actual != null && i < materia.length()) {    //Complejidad del ciclo: O(|m|)
+                while (actual != null && actual.valor != materia.charAt(i)){ //O(1) por cantidad de caracteres acotada
+                    actual = actual.hermano;    //O(1)
                 } // actual == null || actual.valor == carrera.charAt(i)
-                if (actual != null && actual.valor == materia.charAt(i)) {
-                    i++;
-                    padre = actual;
-                    actual = actual.hijo;
+                if (actual != null && actual.valor == materia.charAt(i)) { //O(1)
+                    i++;    //O(1)
+                    padre = actual;    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            return i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true; 
+            return i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true;   //O(1)
         }
     }
     
