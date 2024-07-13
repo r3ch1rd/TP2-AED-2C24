@@ -31,69 +31,71 @@ public class trieCarreras {
         }
     }
 
-    public trieCarreras(){
-        cantCarreras = 0;
-        raiz = null;
+    public trieCarreras(){  //Función completa: O(1)
+        cantCarreras = 0;       //O(1)
+        raiz = null;            //O(1)
     }
 
     public void insertarCarrera(String carrera){
-        int i = 0;
-        Nodo actual = raiz;
-        Nodo hermanoMenor = null;
-        Nodo padre = null;
+        int i = 0;                //O(1)
+        Nodo actual = raiz;       //O(1) 
+        Nodo hermanoMenor = null; //O(1)
+        Nodo padre = null;        //O(1)
 
-        if(raiz == null){ //no hay carreras
-            raiz = new Nodo(carrera.charAt(0));
-            padre = raiz;
-            actual = raiz.hijo;
-            i = 1;
+        if(raiz == null){ //no hay carreras   O(1)
+            raiz = new Nodo(carrera.charAt(0));  //O(1)
+            padre = raiz;                        //O(1)
+            actual = raiz.hijo;                  //O(1)
+            i = 1;                               //O(1) 
         } else { //hay carreras
-            if (raiz.valor > carrera.charAt(0)) {
-                Nodo nuevaRaiz = new Nodo(carrera.charAt(0));
-                nuevaRaiz.hermano = raiz;
-                raiz = nuevaRaiz;
-                padre = raiz;
-                actual = raiz.hijo;
-                i = 1;
+            if (raiz.valor > carrera.charAt(0)) {                //O(1)
+                Nodo nuevaRaiz = new Nodo(carrera.charAt(0));    //O(1)
+                nuevaRaiz.hermano = raiz;                        //O(1)
+                raiz = nuevaRaiz;                                //O(1)
+                padre = raiz;                                    //O(1)
+                actual = raiz.hijo;                              //O(1)  
+                i = 1;                                           //O(1) 
             } else {
-                while (actual != null && i < carrera.length()) {
-                    while (actual != null && actual.valor < carrera.charAt(i)){
-                        hermanoMenor = actual;
-                        actual = actual.hermano;
+                while (actual != null && i < carrera.length()) { //Complejidad del while completo: O(|c|) * O(1) = O(|c|) pues recorre el largo de la carrera y por cada letra es O(1)
+                    while (actual != null && actual.valor < carrera.charAt(i)){ //En el peor caso, 
+                                                                                //carrera.charAt es el ultimo caracter posible en orden lexicográfico, 
+                                                                                //pero los caracteres están acotados entonces O(1)
+                        hermanoMenor = actual;    //O(1)
+                        actual = actual.hermano;  //O(1)
                     } // actual == null || actual.valor >= carrera.charAt(i)
-                    if (actual != null && actual.valor > carrera.charAt(i)) {
-                        Nodo nuevo = new Nodo(carrera.charAt(i));
-                        if (hermanoMenor == null) {
-                        padre.hijo = nuevo;
-                        } else {
-                        hermanoMenor.hermano = nuevo;
+                    if (actual != null && actual.valor > carrera.charAt(i)) {  //O(1)
+                        Nodo nuevo = new Nodo(carrera.charAt(i));              //O(1)  
+                        if (hermanoMenor == null) {                            //O(1)
+                        padre.hijo = nuevo;                                    //O(1)
+                        } else {                                                
+                        hermanoMenor.hermano = nuevo;                          //O(1)  
                         }
-                        nuevo.hermano = actual;
-                        actual = nuevo;
-                    } else if (actual == null) { 
-                        Nodo nuevo = new Nodo(carrera.charAt(i));
-                        hermanoMenor.hermano = nuevo;
-                        actual = nuevo;
+                        nuevo.hermano = actual;                                //O(1)
+                        actual = nuevo;                                        //O(1)
+                    } else if (actual == null) {                               //O(1)  
+                        Nodo nuevo = new Nodo(carrera.charAt(i));              //O(1)  
+                        hermanoMenor.hermano = nuevo;                          //O(1)  
+                        actual = nuevo;                                        //O(1)
                     } //aca 100% -> (actual != null && actual.valor == carrera.charAt(i))
-                    padre = actual;
-                    actual = actual.hijo;
-                    hermanoMenor = null;
-                    i++;
+                    padre = actual;                                            //O(1)    
+                    actual = actual.hijo;                                      //O(1)  
+                    hermanoMenor = null;                                       //O(1) 
+                    i++;                                                       //O(1) 
                 }
 
             }
 
         }
-        while(i < carrera.length()){
-            actual = new Nodo(carrera.charAt(i));
-            padre.hijo = actual;
-            padre = actual;
-            actual = actual.hijo;
-            i++;
+        while(i < carrera.length()){     // Complejidad del while: O(|c|) * O(1) = O(|c|)
+            actual = new Nodo(carrera.charAt(i)); //O(1)
+            padre.hijo = actual;                  //O(1)
+            padre = actual;                       //O(1) 
+            actual = actual.hijo;                 //O(1)
+            i++;                                  //O(1)  
         }
-        if (padre.def==false){this.cantCarreras++;}
-        padre.def = true;
-        if (padre.materias==null){padre.materias = new trieMaterias();}
+        if (padre.def==false){this.cantCarreras++;} //O(1)
+        padre.def = true;                            //O(1)
+        if (padre.materias==null){padre.materias = new trieMaterias();} //
         if (padre.nombre==null){padre.nombre = new String(carrera);}
     }
 
