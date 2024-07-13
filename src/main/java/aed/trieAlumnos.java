@@ -24,9 +24,9 @@ public class trieAlumnos {
         // solo se usa para el trie alumnosNroMaterias y cerrarCarrera
         private int nroMaterias;
 
-        Nodo(char v){
-            valor = v;
-            def = false;
+        Nodo(char v){      //Funcion completa: O(1) + O(1) = O(1)
+            valor = v;     //O(1)
+            def = false;   //O(1)
         }
     }
 
@@ -39,100 +39,100 @@ public class trieAlumnos {
         return this.cantAlumnos;
     }
 
-    public void insertarAlumno(String alumno){
-        int i = 0;
-        Nodo actual = raiz;
-        Nodo hermanoMenor = null;
-        Nodo padre = null;
-        if(raiz == null){ //no hay alumnos             //Guarda: O(1) //Rama: 5 * O(1) = O(1)
-            raiz = new Nodo(alumno.charAt(0));         //O(1)
-            padre = raiz;                              //O(1) 
-            actual = raiz.hijo;                        //O(1)
-            i = 1;                                     //O(1)
-        } else { //hay alumnos
-            if (raiz.valor > alumno.charAt(0)) {                   //Guarda: O(1) //Rama: 7 * O(1) = O(1)
-                Nodo nuevaRaiz = new Nodo(alumno.charAt(0));       //O(1)
-                nuevaRaiz.hermano = raiz;                          //O(1)
-                raiz = nuevaRaiz;                                  //O(1)
-                padre = raiz;                                      //O(1)
-                actual = raiz.hijo;                                //O(1)
-                i = 1;                                             //O(1)
-            } else {
-                while (actual != null && i < alumno.length()) {
-                    while (actual != null && actual.valor < alumno.charAt(i)){    //Guarda: O(1) + O(1) = O(1) // Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de 3*O(1) = 256*3*O(1) = O(1)
-                        hermanoMenor = actual;                                    //O(1)
-                        actual = actual.hermano;                                  //O(1)
+    public void insertarAlumno(String alumno){                    //Funcion completa: 9*O(1) = O(1)
+        int i = 0;                                                    //O(1)
+        Nodo actual = raiz;                                           //O(1)
+        Nodo hermanoMenor = null;                                     //O(1)
+        Nodo padre = null;                                            //O(1)
+        if(raiz == null){ //no hay alumnos                            //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else //Guarda: O(1) 
+            raiz = new Nodo(alumno.charAt(0));                            
+            padre = raiz;                                                 
+            actual = raiz.hijo;                                           
+            i = 1;                                                        
+        } else { //hay alumnos                                        //Rama: O(1)
+            if (raiz.valor > alumno.charAt(0)) {                          //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else //Guarda: O(1) 
+                Nodo nuevaRaiz = new Nodo(alumno.charAt(0));                  
+                nuevaRaiz.hermano = raiz;                                     
+                raiz = nuevaRaiz;                                             
+                padre = raiz;                                                 
+                actual = raiz.hijo;                                           
+                i = 1;                                                        
+            } else {                                                      //Rama: O(1)
+                while (actual != null && i < alumno.length()) {               //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 7*O(1) = alumno.length()*7*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada //Guarda: O(1) + O(1) = O(1)
+                    while (actual != null && actual.valor < alumno.charAt(i)){    //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de 3*O(1) = 256*3*O(1) = O(1) //Guarda: O(1) + O(1) = O(1) 
+                        hermanoMenor = actual;                                        //O(1)
+                        actual = actual.hermano;                                      //O(1)
                     } // actual == null || actual.valor >= carrera.charAt(i)
-                    if (actual != null && actual.valor > alumno.charAt(i)) {
-                        Nodo nuevo = new Nodo(alumno.charAt(i));
-                        if (hermanoMenor == null) {
-                        padre.hijo = nuevo;
-                        } else {
-                        hermanoMenor.hermano = nuevo;
+                    if (actual != null && actual.valor > alumno.charAt(i)) {      //If completo: max{O(1),O(1)} = O(1) //Rama: 5*O(1)  = O(1) //Guarda: O(1) + O(1) = O(1) 
+                        Nodo nuevo = new Nodo(alumno.charAt(i));                      //O(1)
+                        if (hermanoMenor == null) {                                   //If completo: max{O(1),O(1)} = O(1) //Rama: 2*O(1) = O(1) //Guarda: O(1) 
+                        padre.hijo = nuevo;                                               //O(1)
+                        } else {                                                      //Rama: O(1)
+                        hermanoMenor.hermano = nuevo;                                     //O(1)
                         }
-                        nuevo.hermano = actual;
-                        actual = nuevo;
-                    } else if (actual == null) { 
-                        Nodo nuevo = new Nodo(alumno.charAt(i));
-                        hermanoMenor.hermano = nuevo;
-                        actual = nuevo;
+                        nuevo.hermano = actual;                                       //O(1)
+                        actual = nuevo;                                               //O(1)
+                    } else if (actual == null) {                                  //Rama: 3*O(1) = O(1) //Guarda: O(1) 
+                        Nodo nuevo = new Nodo(alumno.charAt(i));                      //O(1)
+                        hermanoMenor.hermano = nuevo;                                 //O(1)
+                        actual = nuevo;                                               //O(1)
                     } //aca 100% -> (actual != null && actual.valor == carrera.charAt(i))
-                    padre = actual;
-                    actual = actual.hijo;
-                    hermanoMenor = null;
-                    i++;
+                    padre = actual;                                               //O(1)
+                    actual = actual.hijo;                                         //O(1)
+                    hermanoMenor = null;                                          //O(1)
+                    i++;                                                          //O(1)
                 }
 
             }
 
         }
-        while(i < alumno.length()){
+        while(i < alumno.length()){                                   //Ciclo: en el peor caso solo hay que tener en cuenta la guarda pues no entra al ciclo //Guarda: O(1)
             actual = new Nodo(alumno.charAt(i));
             padre.hijo = actual;
             padre = actual;
             actual = actual.hijo;
             i++;
         } 
-        padre.def = true;
-        this.cantAlumnos++;
+        padre.def = true;                                             //O(1)
+        this.cantAlumnos++;                                           //O(1)
 
         // solo se usa para el trie alumnosNroMaterias
-        padre.nroMaterias = 0;
+        padre.nroMaterias = 0;                                        //O(1)
     }
 
-    public boolean perteneceAlumnos(String alumno){
-        if(raiz == null){ //no hay alumnos
-            return false;
-        } else { //hay alumnos
-            int i = 0;
-            Nodo actual = raiz;
-            Nodo padre = null;
-            while (actual != null && i < alumno.length()) {
-                while (actual != null && actual.valor != alumno.charAt(i)){
-                    actual = actual.hermano;
+    public boolean perteneceAlumnos(String alumno){                                                          //Funcion completa: 2*O(1) = O(1) 
+        if(raiz == null){ //no hay alumnos                                                                       //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else // Guarda: O(1)
+            return false;                                                                                            
+        } else { //hay alumnos                                                                                   //Rama: 6*O(1) = O(1)
+            int i = 0;                                                                                               //O(1)
+            Nodo actual = raiz;                                                                                      //O(1)
+            Nodo padre = null;                                                                                       //O(1)
+            while (actual != null && i < alumno.length()) {                                                          //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 2*O(1) = alumno.length()*2*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada //Guarda: O(1) + O(1) = O(1)
+                while (actual != null && actual.valor != alumno.charAt(i)){                                              //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de 3*O(1) = 256*3*O(1) = O(1) //Guarda: O(1) + O(1) = O(1) 
+                    actual = actual.hermano;                                                                                 //O(1)
                 } // actual == null || actual.valor == carrera.charAt(i)
-                if (actual != null && actual.valor == alumno.charAt(i)) {
-                    i++;
-                    padre = actual;
-                    actual = actual.hijo;
+                if (actual != null && actual.valor == alumno.charAt(i)) {                                            //If completo: 4*O(1) = O(1) //Guarda: 2*O(1) = O(1)
+                    i++;                                                                                                 //O(1)
+                    padre = actual;                                                                                      //O(1)
+                    actual = actual.hijo;                                                                                //O(1)
                 }
             }
-            return i == alumno.length() && padre.valor == alumno.charAt(alumno.length()-1) && padre.def == true; 
+            return i == alumno.length() && padre.valor == alumno.charAt(alumno.length()-1) && padre.def == true;     //O(1)
         }
     }
 
     // solo se usa para el trie alumnosNroMaterias
-    public void agregarMateriaAAlumno(String alumno){
-        if(perteneceAlumnos(alumno)){
-            Nodo actual = raiz;
-            for(char c : alumno.toCharArray()){
-                while(actual.valor != c){
-                    actual = actual.hermano;
+    public void agregarMateriaAAlumno(String alumno){    //Funcion completa: 
+        if(perteneceAlumnos(alumno)){                        //If completo: O(1) //Guarda: O(1)
+            Nodo actual = raiz;                                  //O(1)
+            for(char c : alumno.toCharArray()){                  //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 2*O(1) = alumno.length()*2*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada //Guarda: O(1)
+                while(actual.valor != c){                            //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hermano;                             //O(1)
                 }
-                if(actual.def==false){
-                    actual = actual.hijo;
+                if(actual.def==false){                               //If completo: O(1) //Guarda: O(1)
+                    actual = actual.hijo;                                //O(1)
                 }else{
-                    actual.nroMaterias++;
+                    actual.nroMaterias++;                                //O(1)
                 }
             }
         }
