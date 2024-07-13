@@ -165,18 +165,18 @@ public class trieCarreras {
         } // si no hay carreras, no hago nada
     }
 
-    public void insertarMateria(String carrera, String materia){
-        if(perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(char c : carrera.toCharArray()){
-                while(actual.valor != c){
-                    actual = actual.hermano;
+    public void insertarMateria(String carrera, String materia){ //Complejidad de la función: max{O(1), O(|c|),    }
+        if(perteneceCarrera(carrera)){                //O(1)
+            Nodo actual = raiz;                       //O(1)
+            for(char c : carrera.toCharArray()){      //O(|c|)  
+                while(actual.valor != c){        //O(1) misma justificación de antes (finitos caracteres)
+                    actual = actual.hermano; //O(1)   
                 }
-                if(actual.materias == null){
-                    actual = actual.hijo;
+                if(actual.materias == null){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            actual.materias.insertarMateria(materia);
+            actual.materias.insertarMateria(materia); //...
             
         }
     }
