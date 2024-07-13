@@ -36,7 +36,7 @@ public class trieCarreras {
         raiz = null;            //O(1)
     }
 
-    public void insertarCarrera(String carrera){
+    public void insertarCarrera(String carrera){  //Función completa: O(|c|)
         int i = 0;                //O(1)
         Nodo actual = raiz;       //O(1) 
         Nodo hermanoMenor = null; //O(1)
@@ -95,8 +95,8 @@ public class trieCarreras {
         }
         if (padre.def==false){this.cantCarreras++;} //O(1)
         padre.def = true;                            //O(1)
-        if (padre.materias==null){padre.materias = new trieMaterias();} //
-        if (padre.nombre==null){padre.nombre = new String(carrera);}
+        if (padre.materias==null){padre.materias = new trieMaterias();} //O(1) pues trieMaterias() es O(1)
+        if (padre.nombre==null){padre.nombre = new String(carrera);}    //O(1)
     }
 
     public boolean perteneceCarrera(String carrera){
