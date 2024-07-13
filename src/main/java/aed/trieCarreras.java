@@ -99,28 +99,28 @@ public class trieCarreras {
         if (padre.nombre==null){padre.nombre = new String(carrera);}    //O(1)
     }
 
-    public boolean perteneceCarrera(String carrera){
+    public boolean perteneceCarrera(String carrera){  //Complejidad de la función: max{O(|c|), O(1)} = O(|c|)
         if(raiz == null){ //no hay carreras
-            return false;
+            return false;                //O(1)
         } else { //hay carreras
-            int i = 0;
-            Nodo actual = raiz;
-            Nodo padre = null;
-            while (actual != null && i < carrera.length()) {
-                while (actual != null && actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+            int i = 0;                     //O(1) 
+            Nodo actual = raiz;            //O(1)
+            Nodo padre = null;             //O(1)
+            while (actual != null && i < carrera.length()) {  //Comp de l while: O(|c|) * O(1) = O(|c|)
+                 while (actual != null && actual.valor != carrera.charAt(i)){  //Comp del while : O(1) por cant de caracteres acotada
+                    actual = actual.hermano;  //O(1)
                 } // actual == null || actual.valor == carrera.charAt(i)
-                if (actual != null && actual.valor == carrera.charAt(i)) {
-                    i++;
-                    padre = actual;
-                    actual = actual.hijo;
+                if (actual != null && actual.valor == carrera.charAt(i)) {  //O(1)
+                    i++;                    //O(1)
+                    padre = actual;         //O(1)
+                    actual = actual.hijo;   //O(1)
                 }
             }
-            return i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true; 
+            return i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true; //O(1)
         }
     }
 
-    public void eliminarCarrera(String carrera){
+    public void eliminarCarrera(String carrera){  //O
         if(raiz != null){ //si hay carreras...
             int i = 0;
             Nodo actual = raiz;
