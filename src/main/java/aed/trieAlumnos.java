@@ -187,6 +187,9 @@ public class trieAlumnos {
         return res;
     }
 
+
+    //COmplejidad de void alumnos(n,prefijo,res):
+    //la funcion hace que, a partir de un nodo, baja 
     public void alumnos(Nodo n, String prefijo, String[] res){    //Funcion completa: 
         if(n == null){                                                //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else // Guarda: O(1)
             return;
