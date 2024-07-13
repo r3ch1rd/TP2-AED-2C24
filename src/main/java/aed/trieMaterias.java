@@ -119,18 +119,18 @@ public class trieMaterias {
         }
     }
     
-    public void insertarAlumno(String materia, String alumno){
-        if(perteneceMaterias(materia)){
-            Nodo actual = raiz;
-            for(int i=0;i<materia.length();i++){
-                while(actual.valor != materia.charAt(i)){
-                    actual = actual.hermano;
+    public void insertarAlumno(String materia, String alumno){    //Complejidad de la función: 2*O(|m|) = O(|m|)    
+        if(perteneceMaterias(materia)){        //O(|m|) por la función perteneceMaterias
+            Nodo actual = raiz;        //O(1)
+            for(int i=0;i<materia.length();i++){         //O(|m|)
+                while(actual.valor != materia.charAt(i)){     //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<materia.length()-1){
-                    actual = actual.hijo;
+                if(i<materia.length()-1){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            actual.alumnos.insertarAlumno(alumno);
+            actual.alumnos.insertarAlumno(alumno);    //O(1)
         }
     }
 
