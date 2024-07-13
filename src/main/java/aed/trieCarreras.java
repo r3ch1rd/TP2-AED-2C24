@@ -165,7 +165,7 @@ public class trieCarreras {
         } // si no hay carreras, no hago nada
     }
 
-    public void insertarMateria(String carrera, String materia){ //Complejidad de la función: max{O(1), O(|c|),    }
+    public void insertarMateria(String carrera, String materia){ //Complejidad de la función: O(|c| + |m|)
         if(perteneceCarrera(carrera)){                //O(1)
             Nodo actual = raiz;                       //O(1)
             for(char c : carrera.toCharArray()){      //O(|c|)  
@@ -176,25 +176,25 @@ public class trieCarreras {
                     actual = actual.hijo;    //O(1)
                 }
             }
-            actual.materias.insertarMateria(materia); //...
+            actual.materias.insertarMateria(materia); //O(|m|) especificado en trieMaterias.java
             
         }
     }
 
-    public boolean perteneceMaterias(String carrera, String materia){
-        if(perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(char c : carrera.toCharArray()){
-                while(actual.valor != c){
-                    actual = actual.hermano;
+    public boolean perteneceMaterias(String carrera, String materia){  //Complejidad de la función: O(|c|+|m|)
+        if(perteneceCarrera(carrera)){   //O(1)  es el peor caso si entra en el if
+            Nodo actual = raiz;            //O(1)
+            for(char c : carrera.toCharArray()){    //O(|c|)    
+                while(actual.valor != c){  //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(actual.materias == null){
-                    actual = actual.hijo;
+                if(actual.materias == null){        //O(1)
+                    actual = actual.hijo;        //O(1)
                 }
             }
-            return actual.materias.perteneceMaterias(materia);
+            return actual.materias.perteneceMaterias(materia); //O(|m|) especificado en trieMaterias.java
         }else{
-            return false;
+            return false; //O(1)
         }
     }
 
