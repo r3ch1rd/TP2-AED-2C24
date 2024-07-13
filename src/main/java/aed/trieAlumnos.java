@@ -24,19 +24,19 @@ public class trieAlumnos {
         // solo se usa para el trie alumnosNroMaterias y cerrarCarrera
         private int nroMaterias;
 
-        Nodo(char v){      //Funcion completa: O(1) + O(1) = O(1)
+        Nodo(char v){      //Funcion completa: 2*O(1) = O(1)
             valor = v;     //O(1)
             def = false;   //O(1)
         }
     }
 
-    public trieAlumnos(){
-        cantAlumnos = 0;
-        raiz = null;
+    public trieAlumnos(){    //Funcion completa: 2*O(1) = O(1)
+        cantAlumnos = 0;         //O(1)
+        raiz = null;             //O(1)
     }
 
-    public int cantAlumnos(){
-        return this.cantAlumnos;
+    public int cantAlumnos(){        //Funcion completa: O(1)
+        return this.cantAlumnos;         //O(1)
     }
 
     public void insertarAlumno(String alumno){                    //Funcion completa: 9*O(1) = O(1)
@@ -122,14 +122,14 @@ public class trieAlumnos {
     }
 
     // solo se usa para el trie alumnosNroMaterias
-    public void agregarMateriaAAlumno(String alumno){    //Funcion completa: 
+    public void agregarMateriaAAlumno(String alumno){    //Funcion completa: O(1)
         if(perteneceAlumnos(alumno)){                        //If completo: O(1) //Guarda: O(1)
             Nodo actual = raiz;                                  //O(1)
-            for(char c : alumno.toCharArray()){                  //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 2*O(1) = alumno.length()*2*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada //Guarda: O(1)
+            for(char c : alumno.toCharArray()){                  //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 2*O(1) = alumno.length()*2*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada
                 while(actual.valor != c){                            //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
                     actual = actual.hermano;                             //O(1)
                 }
-                if(actual.def==false){                               //If completo: O(1) //Guarda: O(1)
+                if(actual.def==false){                               //If completo: 2*O(1) = O(1) //Guarda: O(1)
                     actual = actual.hijo;                                //O(1)
                 }else{
                     actual.nroMaterias++;                                //O(1)
@@ -139,46 +139,47 @@ public class trieAlumnos {
     }
 
     // solo se usa para el trie alumnosNroMaterias
-    public int materiasInscriptas(String alumno){
-        if(perteneceAlumnos(alumno)){
-            Nodo actual = raiz;
-            for(char c : alumno.toCharArray()){
-                while(actual.valor != c){
-                    actual = actual.hermano;
+    public int materiasInscriptas(String alumno){    //Funcion completa: 2*O(1) = O(1)
+        if(perteneceAlumnos(alumno)){                    //If completo: O(1) //Guarda: O(1)
+            Nodo actual = raiz;                              //O(1)
+            for(char c : alumno.toCharArray()){              //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 2*O(1) = alumno.length()*2*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada
+                while(actual.valor != c){                        //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hermano;                         //O(1)
                 }
-                if(actual.def==false){
-                    actual = actual.hijo;
-                }else{
-                    return actual.nroMaterias;
+                if(actual.def==false){                           //If completo: 2*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hijo;                            //O(1)
+                }else{                            
+                    return actual.nroMaterias;                       //O(1)
                 }
             }
+        } else {
+            return 0;                                            //O(1)
         }
-        return 0;
     }
     
     // solo se usa para cerrarMateria
-    public void eliminarMateriaAAlumno(String alumno){
-        if(perteneceAlumnos(alumno)){
-            Nodo actual = raiz;
-            for(char c : alumno.toCharArray()){
-                while(actual.valor != c){
-                    actual = actual.hermano;
+    public void eliminarMateriaAAlumno(String alumno){    //Funcion completa: 2*O(1) = O(1)
+        if(perteneceAlumnos(alumno)){                         //If completo: O(1) //Guarda: O(1)
+            Nodo actual = raiz;                                   //O(1)
+            for(char c : alumno.toCharArray()){               //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) alumno.length() de 2*O(1) = alumno.length()*2*O(1) = O(alumno.length()) = O(1) pues alumno.length() esta acotada
+                while(actual.valor != c){                         //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hermano;                          //O(1)
                 }
-                if(actual.def==false){
-                    actual = actual.hijo;
+                if(actual.def==false){                            //If completo: 2*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hijo;                             //O(1)
                 }else{
-                    actual.nroMaterias--;
+                    actual.nroMaterias--;                             //O(1)
                 }
             }
         }
     }
 
 
-    public String[] alumnos(){
-        String[] res = new String[cantAlumnos];
-        String pref = "";
-        Nodo actual = raiz;
-        alumnos(actual, pref, res);
+    public String[] alumnos(){                    //Funcion completa:
+        String[] res = new String[cantAlumnos];       //O(cantAlumnos)
+        String pref = "";                             //O(1)
+        Nodo actual = raiz;                           //O(1)
+        alumnos(actual, pref, res);                   //
         while(actual.hermano!=null){
             alumnos(actual.hermano,pref,res);
             actual = actual.hermano;
@@ -186,13 +187,13 @@ public class trieAlumnos {
         return res;
     }
 
-    public void alumnos(Nodo n, String prefijo, String[] res){
-        if(n == null){
+    public void alumnos(Nodo n, String prefijo, String[] res){    //Funcion completa: 
+        if(n == null){                                                //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else // Guarda: O(1)
             return;
         }else{
-            if(n.def == true){
-                String alumno = prefijo + n.valor;
-                res[ultimoElem(res)] = alumno;
+            if(n.def == true){                                            //If completo: max{} // Guarda: O(1)
+                String alumno = prefijo + n.valor;                            //O(1)
+                res[ultimoElem(res)] = alumno;                                //O(cantAlumnos) + O(1) = O(cantAlumnos)
             }else{
                 Nodo hijo = n.hijo;
                 alumnos(hijo,prefijo + n.valor,res);
@@ -204,9 +205,11 @@ public class trieAlumnos {
         }
     }
 
-    public int ultimoElem(String[] lista){
-        int i = 0;
-        while(lista[i]!=null){i++;}
-        return i;
+    public int ultimoElem(String[] lista){    //Funcion completa: O(cantAlumnos) + 2*O(1) = O(cantAlumnos)
+        int i = 0;                                //O(1)
+        while(lista[i]!=null){                    //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) cantAlumnos de O(1) = cantAlumnos*O(1) = O(cantAlumnos) //Guarda: O(1)
+            i++;                                      //O(1)
+        }
+        return i;                                 //O(1)
     }
 }
