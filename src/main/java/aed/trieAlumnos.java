@@ -191,12 +191,12 @@ public class trieAlumnos {
         if(n == null){                                                //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else // Guarda: O(1)
             return;
         }else{
-            if(n.def == true){                                            //If completo: max{} // Guarda: O(1)
+            if(n.def == true){                                            //If completo: max{O(cantAlumnos), } //Rama: O(cantAlumnos) + O(1) = O(cantAlumnos) //Guarda: O(1)
                 String alumno = prefijo + n.valor;                            //O(1)
                 res[ultimoElem(res)] = alumno;                                //O(cantAlumnos) + O(1) = O(cantAlumnos)
             }else{
-                Nodo hijo = n.hijo;
-                alumnos(hijo,prefijo + n.valor,res);
+                Nodo hijo = n.hijo;                                           //O(1)
+                alumnos(hijo,prefijo + n.valor,res);                          //
                 while(hijo.hermano!=null){
                     alumnos(hijo.hermano,prefijo + n.valor,res);
                     hijo = hijo.hermano;
