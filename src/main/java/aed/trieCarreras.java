@@ -120,47 +120,47 @@ public class trieCarreras {
         }
     }
 
-    public void eliminarCarrera(String carrera){  //O
+    public void eliminarCarrera(String carrera){  //Complejidad de la función: max{O(|c|), O(1)} = O(|c|)
         if(raiz != null){ //si hay carreras...
-            int i = 0;
-            Nodo actual = raiz;
-            Nodo padre = null;
-            Nodo ultimoNodoUtil = null;
-            int caso = 0;
-            while (actual != null && i < carrera.length()) {
-                while (actual != null && actual.valor != carrera.charAt(i)){
-                    if (actual.hijo != null || actual.def == true) {
-                        ultimoNodoUtil = actual;
-                        caso = 1;
+            int i = 0;                    //O(1)
+            Nodo actual = raiz;           //O(1) 
+            Nodo padre = null;            //O(1)
+            Nodo ultimoNodoUtil = null;   //O(1)
+            int caso = 0;                 //O(1)
+            while (actual != null && i < carrera.length()) { //Complejidad del ciclo: O(|c|) * O(1) = O(|c|)
+                while (actual != null && actual.valor != carrera.charAt(i)){  //O(1) misma justificación que en la linea 60
+                    if (actual.hijo != null || actual.def == true) { //O(1)
+                        ultimoNodoUtil = actual;                     //O(1)
+                        caso = 1;                                    //O(1)
                     }
-                    actual = actual.hermano;
+                    actual = actual.hermano; //O(1)
                 } // actual == null || actual.valor == carrera.charAt(i)
-                if (actual != null && actual.valor == carrera.charAt(i)) {
-                    i++;
-                    padre = actual;
-                    actual = actual.hijo;
-                    if (actual.hermano != null) { //caso = 2;
-                        ultimoNodoUtil = padre;
+                if (actual != null && actual.valor == carrera.charAt(i)) {   //O(1)
+                    i++;                    //O(1)
+                    padre = actual;         //O(1)
+                    actual = actual.hijo;   //O(1)
+                    if (actual.hermano != null) { //caso = 2; //O(1)
+                        ultimoNodoUtil = padre;    //O(1)
                     }
                 }
             }
-            if (i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true) { // si carrera pertenece a trieCarreras...
-                if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
-                    if (raiz.hermano == null) {
-                        raiz = null;
-                    } else {
-                        raiz = raiz.hermano;
+            if (i == carrera.length() && padre.valor == carrera.charAt(carrera.length()-1) && padre.def == true) { // si carrera pertenece a trieCarreras... //O(1) chquea condiciones finitas
+                if (ultimoNodoUtil == null) { // tambien podria poner caso == 0  //O(1)
+                    if (raiz.hermano == null) {                                  //O(1)
+                        raiz = null;                                             //O(1)
+                    } else {            
+                        raiz = raiz.hermano;                                     //O(1)
                     }
-                } else if (caso == 1) {
-                    if (ultimoNodoUtil.hermano.hermano == null) {
-                        ultimoNodoUtil.hermano = null;   
+                } else if (caso == 1) {                                          //O(1)
+                    if (ultimoNodoUtil.hermano.hermano == null) {                //O(1)
+                        ultimoNodoUtil.hermano = null;                           //O(1)    
                     } else {
-                        ultimoNodoUtil.hermano = ultimoNodoUtil.hermano.hermano;
+                        ultimoNodoUtil.hermano = ultimoNodoUtil.hermano.hermano; //O(1)
                     }
                 } else { //caso == 2
-                    ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;
+                    ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;           //O(1) 
                 }
-                cantCarreras--;
+                cantCarreras--;                                //O(1)
             } // si no pertenece, no hago nada
         } // si no hay carreras, no hago nada
     }
