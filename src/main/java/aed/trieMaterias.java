@@ -166,65 +166,65 @@ public class trieMaterias {
         }
     }
 
-    public InfoMateria materiasIguales(String materia){
-        if(perteneceMaterias(materia)){
-            Nodo actual = raiz;
-            for(int i=0;i<materia.length();i++){
-                while(actual.valor != materia.charAt(i)){
-                    actual = actual.hermano;
+    public InfoMateria materiasIguales(String materia){    //Complejidad de la función: O(|m|)
+        if(perteneceMaterias(materia)){    //Peor caso   O(|m|)
+            Nodo actual = raiz;    //O(1)
+            for(int i=0;i<materia.length();i++){    //O(|m|)
+                while(actual.valor != materia.charAt(i)){    //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<(materia.length()-1)){
-                    actual = actual.hijo;
+                if(i<(materia.length()-1)){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            return actual.info;
-        }else{
-            return null;
+            return actual.info;    //O(1)
+        }else{    //mejor caso
+            return null;    //O(1)
         }
     }
 
-    public void agregarDocente(CargoDocente docente, String materia){
-        if(perteneceMaterias(materia)){
-            Nodo actual = raiz;
-            for(int i=0;i<materia.length();i++){
-                while(actual.valor != materia.charAt(i)){
-                    actual = actual.hermano;
+    public void agregarDocente(CargoDocente docente, String materia){    //Complejidad de la función: O(|m|)
+        if(perteneceMaterias(materia)){        //O(|m|)
+            Nodo actual = raiz;    //O(1)
+            for(int i=0;i<materia.length();i++){     //O(|m|)
+                while(actual.valor != materia.charAt(i)){    //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<materia.length()-1){
-                    actual = actual.hijo;
+                if(i<materia.length()-1){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            switch (docente) {
+            switch (docente) {    //O(1)
                 case AY2:
-                    actual.docentes[3] = actual.docentes[3] + 1;
+                    actual.docentes[3] = actual.docentes[3] + 1;    //O(1)
                     break;
                 case AY1:
-                    actual.docentes[2] = actual.docentes[2] + 1;
+                    actual.docentes[2] = actual.docentes[2] + 1;    //O(1)
                     break;
                 case JTP:
-                    actual.docentes[1] = actual.docentes[1] + 1;
+                    actual.docentes[1] = actual.docentes[1] + 1;    //O(1)
                     break;
                 default:
-                    actual.docentes[0] = actual.docentes[0] + 1;
+                    actual.docentes[0] = actual.docentes[0] + 1;    //O(1)
                     break;
             }
         }
     }
 
-    public int[] plantelDocente(String materia){
-        if(perteneceMaterias(materia)){
-            Nodo actual = raiz;
-            for(int i=0;i<materia.length();i++){
-                while(actual.valor != materia.charAt(i)){
-                    actual = actual.hermano;
+    public int[] plantelDocente(String materia){    //Complejidad de la materia: O(m)
+        if(perteneceMaterias(materia)){ //Peor caso   //O(|m|)
+            Nodo actual = raiz;    //O(1)
+            for(int i=0;i<materia.length();i++){    //O(|m|)
+                while(actual.valor != materia.charAt(i)){    //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<(materia.length()-1)){
-                    actual = actual.hijo;
+                if(i<(materia.length()-1)){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            return actual.docentes;
-        }else{
-            return null;
+            return actual.docentes;    //O(1)
+        }else{    //Mejor caso
+            return null;    //O(1)
         }
     }
 
