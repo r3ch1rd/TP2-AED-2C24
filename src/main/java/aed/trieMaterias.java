@@ -229,11 +229,11 @@ public class trieMaterias {
     }
 
     public String[] materias(){
-        if (cantMaterias !=0 ) {
-            String[] res = new String[cantMaterias];
-            String pref = "";
-            Nodo actual = raiz;
-            materias(actual, pref, res);
+        if (cantMaterias !=0 ) {    //O(1)
+            String[] res = new String[cantMaterias];    //O(1)
+            String pref = "";    //O(1)
+            Nodo actual = raiz;    //O(1)
+            materias(actual, pref, res); //Hmmmm
             while(actual.hermano!=null){
                 materias(actual.hermano,pref,res);
                 actual = actual.hermano;
