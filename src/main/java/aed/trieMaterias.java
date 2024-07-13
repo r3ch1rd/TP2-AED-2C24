@@ -151,18 +151,18 @@ public class trieMaterias {
         }
     }
 
-    public void adjuntarInfoMateriasIguales(String materia, InfoMateria info){
-        if(perteneceMaterias(materia)){
-            Nodo actual = raiz;
-            for(int i=0;i<materia.length();i++){
-                while(actual.valor != materia.charAt(i)){
-                    actual = actual.hermano;
+    public void adjuntarInfoMateriasIguales(String materia, InfoMateria info){    //O(|m|)
+        if(perteneceMaterias(materia)){    //O(|m|)
+            Nodo actual = raiz;        //O(1)
+            for(int i=0;i<materia.length();i++){     //Complejidad del ciclo: O(|m|)
+                while(actual.valor != materia.charAt(i)){ //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<materia.length()-1){
-                    actual = actual.hijo;
+                if(i<materia.length()-1){        //O(1)
+                    actual = actual.hijo;        //O(1)
                 }
             }
-            actual.info = info;
+            actual.info = info;        //O(1)
         }
     }
 
