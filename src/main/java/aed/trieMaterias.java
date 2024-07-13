@@ -33,69 +33,69 @@ public class trieMaterias {
         }
     }
 
-    public trieMaterias(){
-        cantMaterias = 0;
-        raiz = null;
+    public trieMaterias(){  //Complejidad de la función: O(1)
+        cantMaterias = 0;    //O(1)
+        raiz = null;    //O(1)
     }
 
-    public void insertarMateria(String materia){
-        int i = 0;
-        Nodo actual = raiz;
-        Nodo hermanoMenor = null;
-        Nodo padre = null;
-        if(raiz == null){ //no hay materias
-            raiz = new Nodo(materia.charAt(0));
-            padre = raiz;
-            actual = raiz.hijo;
-            i = 1;
+    public void insertarMateria(String materia){   //Complejidad de la función: max{O(1), O(|m|)} = O(|m|)
+        int i = 0;                //O(1)
+        Nodo actual = raiz;       //O(1) 
+        Nodo hermanoMenor = null; //O(1)
+        Nodo padre = null;        //O(1)
+        if(raiz == null){ //no hay materias  //O(1)
+            raiz = new Nodo(materia.charAt(0));  //O(1)
+            padre = raiz;                        //O(1)
+            actual = raiz.hijo;                  //O(1)  
+            i = 1;                               //O(1) 
         } else { //hay materias
-            if (raiz.valor > materia.charAt(0)) {
-                Nodo nuevaRaiz = new Nodo(materia.charAt(0));
-                nuevaRaiz.hermano = raiz;
-                raiz = nuevaRaiz;
-                padre = raiz;
-                actual = raiz.hijo;
-                i = 1;
+            if (raiz.valor > materia.charAt(0)) {    //O(1)
+                Nodo nuevaRaiz = new Nodo(materia.charAt(0));    //O(1)
+                nuevaRaiz.hermano = raiz;        //O(1)
+                raiz = nuevaRaiz;                //O(1)
+                padre = raiz;                    //O(1)
+                actual = raiz.hijo;              //O(1)
+                i = 1;                           //O(1) 
             } else {
-                while (actual != null && i < materia.length()) {
-                    while (actual != null && actual.valor < materia.charAt(i)){
-                        hermanoMenor = actual;
-                        actual = actual.hermano;
+                while (actual != null && i < materia.length()) {  //Complejidad del ciclo: O(|m|) * O(1)  = O(|m|) 
+                    while (actual != null && actual.valor < materia.charAt(i)){ //Comp del ciclo: O(1) * O(1) = O(1) por caracteres finitos 
+                        hermanoMenor = actual;        //O(1)
+                        actual = actual.hermano;      //O(1)
                     } // actual == null || actual.valor >= carrera.charAt(i)
-                    if (actual != null && actual.valor > materia.charAt(i)) {
-                        Nodo nuevo = new Nodo(materia.charAt(i));
-                        if (hermanoMenor == null) {
-                        padre.hijo = nuevo;
-                        } else {
-                        hermanoMenor.hermano = nuevo;
+                    if (actual != null && actual.valor > materia.charAt(i)) {   //O(1)
+                        Nodo nuevo = new Nodo(materia.charAt(i));               //O(1) 
+                        if (hermanoMenor == null) {                             //O(1)
+                        padre.hijo = nuevo;                          //O(1)      
+                        } else {                    
+                        hermanoMenor.hermano = nuevo;                //O(1)
                         }
-                        nuevo.hermano = actual;
-                        actual = nuevo;
-                    } else if (actual == null) { 
-                        Nodo nuevo = new Nodo(materia.charAt(i));
-                        hermanoMenor.hermano = nuevo;
-                        actual = nuevo;
+                        nuevo.hermano = actual;                      //O(1)
+                        actual = nuevo;                              //O(1)
+                    } else if (actual == null) {     //O(1)
+                        Nodo nuevo = new Nodo(materia.charAt(i)); //O(1)
+                        hermanoMenor.hermano = nuevo;             //O(1)
+                        actual = nuevo;                           //O(1) 
                     } //aca 100% -> (actual != null && actual.valor == carrera.charAt(i))
-                    padre = actual;
-                    actual = actual.hijo;
-                    hermanoMenor = null;
-                    i++;
+                    padre = actual;        //O(1)
+                    actual = actual.hijo;    //O(1)
+                    hermanoMenor = null;    //O(1)
+                    i++;                    //O(1)
                 }
 
             }
 
         }
-        while(i < materia.length()){
-            actual = new Nodo(materia.charAt(i));
-            padre.hijo = actual;
-            padre = actual;
-            actual = actual.hijo;
-            i++;
+        while(i < materia.length()){   //Complejidad del ciclo: O(|m|) pues recorre el largo de la materia y cada ejecución del ciclo es O(1)
+            actual = new Nodo(materia.charAt(i)); //O(1)
+            padre.hijo = actual;    //O(1)
+            padre = actual;         //O(1)
+            actual = actual.hijo;   //O(1)
+            i++;                    //O(1)
         }
-        if (padre.def==false){this.cantMaterias++;}
-        padre.def = true;
-        if(padre.alumnos==null){padre.alumnos = new trieAlumnos();}
-        if(padre.docentes==null){padre.docentes = new int[] {0,0,0,0};}
+        if (padre.def==false){this.cantMaterias++;}   //O(1)
+        padre.def = true;                            //O(1)
+        if(padre.alumnos==null){padre.alumnos = new trieAlumnos();}    //O(1)
+        if(padre.docentes==null){padre.docentes = new int[] {0,0,0,0};}    //O(1)
     }
 
     public boolean perteneceMaterias(String materia){
