@@ -246,10 +246,10 @@ public class trieCarreras {
     }
 
     public void insertarInfo(InfoMateria infoMateria){
-        for (ParCarreraMateria parCarreraMateria : infoMateria.getParesCarreraMateria()){
-            this.insertarCarrera(parCarreraMateria.getCarrera());
-            this.insertarMateria(parCarreraMateria.getCarrera(), parCarreraMateria.getNombreMateria());
-            this.adjuntarInfoMateriasIguales(parCarreraMateria.getCarrera(),
+        for (ParCarreraMateria parCarreraMateria : infoMateria.getParesCarreraMateria()){    //Ciclo: O(sum(|c|)) * O(|c|+|m|) ?????
+            this.insertarCarrera(parCarreraMateria.getCarrera());    //O(|c|)
+            this.insertarMateria(parCarreraMateria.getCarrera(), parCarreraMateria.getNombreMateria());    //O(|m|)
+            this.adjuntarInfoMateriasIguales(parCarreraMateria.getCarrera(),            //O(|c|+|m|)
                                              parCarreraMateria.getNombreMateria(),
                                              infoMateria);
         }
