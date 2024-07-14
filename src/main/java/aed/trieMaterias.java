@@ -211,7 +211,7 @@ public class trieMaterias {
         }
     }
 
-    public int[] plantelDocente(String materia){    //Complejidad de la materia: O(m)
+    public int[] plantelDocente(String materia){    //Complejidad de la materia: O(|m|)
         if(perteneceMaterias(materia)){ //Peor caso   //O(|m|)
             Nodo actual = raiz;    //O(1)
             for(int i=0;i<materia.length();i++){    //O(|m|)
