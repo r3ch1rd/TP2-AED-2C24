@@ -357,18 +357,18 @@ public class trieCarreras {
         }
     }
 
-    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){
-        if(perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){    //Complejidad de la función: 
+        if(perteneceCarrera(carrera)){                                                       //O(|c|)
+            Nodo actual = raiz;                                                              //O(1)
+            for(int i=0;i<carrera.length();i++){                                             //Ciclo: //Guarda: 3*O(1) = O(1)
+                while(actual.valor != carrera.charAt(i)){                                        //Ciclo:
+                    actual = actual.hermano;                                                         //O(1)
                 }
-                if(i<(carrera.length()-1)){
-                    actual = actual.hijo;
+                if(i<(carrera.length()-1)){                                                      //If completo: 2*O(1) = O(1)
+                    actual = actual.hijo;                                                            //O(1)
                 }
             }
-            actual.materias.eliminarMateria(this, alumnos, materia);
+            actual.materias.eliminarMateria(this, alumnos, materia);                         //????????????????????????????????????????????
         }
     }
 
