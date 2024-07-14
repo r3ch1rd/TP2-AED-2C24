@@ -272,35 +272,35 @@ public class trieCarreras {
         }
     }
 
-    public void agregarDocente(CargoDocente docente, String carrera, String materia){
-        if(perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public void agregarDocente(CargoDocente docente, String carrera, String materia){    //Comp de la función: O(|c|+|m|)
+        if(perteneceCarrera(carrera)){    //Peor caso    //O(|c|)    
+            Nodo actual = raiz;    //O(1)
+            for(int i=0;i<carrera.length();i++){    //Ciclo: O(|c|)
+                while(actual.valor != carrera.charAt(i)){    //Ciclo: O(1)    //Guarda: O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<(carrera.length()-1)){
-                    actual = actual.hijo;
+                if(i<(carrera.length()-1)){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            actual.materias.agregarDocente(docente, materia);
+            actual.materias.agregarDocente(docente, materia);    //O(|m|)
         }
     }
 
-    public int[] plantelDocente(String materia, String carrera){
-        if(this.perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public int[] plantelDocente(String materia, String carrera){    //Comp de la función: O(|c|+|m|)
+        if(this.perteneceCarrera(carrera)){    //Peor caso    //O(|c|)
+            Nodo actual = raiz;        //O(1)
+            for(int i=0;i<carrera.length();i++){    //Ciclo:O(|c|)    //Guarda:O(1)
+                while(actual.valor != carrera.charAt(i)){    //Ciclo: O(1)    //Guarda: O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<(carrera.length()-1)){
-                    actual = actual.hijo;
+                if(i<(carrera.length()-1)){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            return actual.materias.plantelDocente(materia);
-        }else{
-            return null;
+            return actual.materias.plantelDocente(materia);    //O(|m|)
+        }else{      //Mejor caso  
+            return null;    //O(1)
         }
     }
 
