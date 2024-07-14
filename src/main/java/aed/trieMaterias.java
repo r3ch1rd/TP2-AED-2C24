@@ -228,19 +228,19 @@ public class trieMaterias {
         }
     }
 
-    public String[] materias(){
-        if (cantMaterias !=0 ) {    //O(1)
+    public String[] materias(){    //O(sum(|M_c|))
+        if (cantMaterias !=0 ) {    //Peor caso    //O(1)
             String[] res = new String[cantMaterias];    //O(1)
             String pref = "";    //O(1)
             Nodo actual = raiz;    //O(1)
-            materias(actual, pref, res); //Hmmmm
-            while(actual.hermano!=null){
-                materias(actual.hermano,pref,res);
-                actual = actual.hermano;
+            materias(actual, pref, res); //O(sum(|M_c|)) recorre todos las materias (que empiezan con la letra de la raiz), entonces es O de la materia de nombre más largo, ie, O(sum()|M_c|)
+            while(actual.hermano!=null){    //O(1)
+                materias(actual.hermano,pref,res);     //recorre todos las materias (que empiezan con las siguientes letras), entonces es O de la materia de nombre más largo, ie, O(sum()|M_c|) 
+                actual = actual.hermano;    //O(1)
             }
-            return res; 
-        } else {
-            return new String[0];
+            return res;     //O(1)
+        } else {    //Mejor caso
+            return new String[0];    //O(1)
         }
     }
 
