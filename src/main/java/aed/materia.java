@@ -10,27 +10,27 @@ public class materia {
     private trieAlumnos trieAlumnos;
     private int[] docentes;
 
-    public materia(String nombre, ParCarreraMateria[] pares, trieCarreras trieCarreras, trieAlumnos trieAlumnos,int[] docentes){
-        this.equivalentes = new ArrayList<>();
-        this.triesEquivalentes = new ArrayList<trieMaterias>();
-        for (ParCarreraMateria par : pares){
-            this.equivalentes.add(par.getNombreMateria());
-            this.triesEquivalentes.add(trieCarreras.trieMaterias(par.getCarrera()));
-        }
-        this.nombre = nombre;
-        this.trieAlumnos = trieAlumnos;
-        this.docentes = docentes;
+    public materia(String nombre, ParCarreraMateria[] pares, trieCarreras trieCarreras, trieAlumnos trieAlumnos,int[] docentes){    //Funcion completa: max{O(1),O(|N_m|)} = O(|N_m|)
+        this.equivalentes = new ArrayList<>();                                                                                          //O(1)
+        this.triesEquivalentes = new ArrayList<trieMaterias>();                                                                         //O(1)
+        for (ParCarreraMateria par : pares){                                                                                            //Ciclo: O(|N_m|) pues se repite funciones con complejidad O(1) |N_m| cantidad de veces
+            this.equivalentes.add(par.getNombreMateria());                                                                                  //O(1)
+            this.triesEquivalentes.add(trieCarreras.trieMaterias(par.getCarrera()));                                                        //O(1)
+        }                                                                                                                               
+        this.nombre = nombre;                                                                                                           //O(1)
+        this.trieAlumnos = trieAlumnos;                                                                                                 //O(1)
+        this.docentes = docentes;                                                                                                       //O(1)
     }
 
-    public String getNombre(){
+    public String getNombre(){    //Funcion completa: O(1)
         return this.nombre;
     }
 
-    public void insertarTrie(trieMaterias trie){
+    public void insertarTrie(trieMaterias trie){    //Funcion completa: O(1)
         this.triesEquivalentes.add(trie);
     }
 
-    public void insertarNombreEq(String nombre){
+    public void insertarNombreEq(String nombre){    //Funcion completa: O(1)
         this.equivalentes.add(nombre);
     }
 
