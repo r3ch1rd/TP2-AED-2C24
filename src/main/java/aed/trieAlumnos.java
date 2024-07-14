@@ -148,10 +148,9 @@ public class trieAlumnos {
                 }
                 if(actual.def==false){                           //If completo: 2*O(1) = O(1) //Guarda: O(1)
                     actual = actual.hijo;                            //O(1)
-                }else{                            
-                    return actual.nroMaterias;                       //O(1)
                 }
             }
+            return actual.nroMaterias;                       //O(1)
         } else {
             return 0;                                            //O(1)
         }
@@ -173,7 +172,6 @@ public class trieAlumnos {
             }
         }
     }
-
 
     public String[] alumnos(){                    //Funcion completa:
         String[] res = new String[cantAlumnos];       //O(cantAlumnos)

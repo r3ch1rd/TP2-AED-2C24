@@ -60,13 +60,7 @@ public class SistemaSIU {
 // Luego agregarDocente es O(|carrera|+|materia|).
 
     public void agregarDocente(CargoDocente cargo, String carrera, String materia){
-
-        InfoMateria infomateria = this.Carreras.materiasIguales(carrera,materia);
-        for (ParCarreraMateria parCarreraMateria : infomateria.getParesCarreraMateria()){
-            this.Carreras.agregarDocente(cargo, 
-                                         parCarreraMateria.getCarrera(),
-                                         parCarreraMateria.getNombreMateria());
-        }
+        this.Carreras.agregarDocente(cargo,carrera,materia);
     }
 
     // Complejidad
@@ -88,20 +82,14 @@ public class SistemaSIU {
 //
 
     public int inscriptos(String materia, String carrera){
-        int res = 0;
-        InfoMateria infomateria = this.Carreras.materiasIguales(carrera,materia);
-        for (ParCarreraMateria parCarreraMateria : infomateria.getParesCarreraMateria()){
-            res += this.Carreras.inscriptosEnMateria(parCarreraMateria.getCarrera(),
-                                                     parCarreraMateria.getNombreMateria());
-        }
-        return res; 
+        return this.Carreras.inscriptosEnMateria(carrera, materia); 
     }
 
     // Complejidad
 // excedeCupo es O(1) pues define una variable y chequea 4 
 // condiciones (en caso de cimplirse, cambia valor) y todo es es O(1).
 
-    public boolean excedeCupo(int inscriptos, int[] docentes, String materia, String carrera){
+    public boolean excedeCupo(int inscriptos, int[] docentes){
         boolean res = false;
         if (docentes[0]*250<inscriptos){res = true;}
         if (docentes[1]*100<inscriptos){res = true;}
@@ -117,8 +105,7 @@ public class SistemaSIU {
 
     public boolean excedeCupo(String materia, String carrera){
         return excedeCupo(this.inscriptos(materia, carrera),
-                          this.plantelDocente(materia, carrera),
-                          materia, carrera);
+                          this.plantelDocente(materia, carrera));
     }
 
     //Complejidad

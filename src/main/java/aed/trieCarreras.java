@@ -23,7 +23,6 @@ public class trieCarreras {
         private Nodo hijo;
         private boolean def;
         private trieMaterias materias;
-        private String nombre;
 
         Nodo(char v){
             valor = v;
@@ -96,7 +95,6 @@ public class trieCarreras {
         if (padre.def==false){this.cantCarreras++;} //O(1)
         padre.def = true;                            //O(1)
         if (padre.materias==null){padre.materias = new trieMaterias();} //O(1) pues trieMaterias() es O(1)
-        if (padre.nombre==null){padre.nombre = new String(carrera);}    //O(1)
     }
 
     public boolean perteneceCarrera(String carrera){  //Complejidad de la función: max{O(|c|), O(1)} = O(|c|)
@@ -165,7 +163,7 @@ public class trieCarreras {
         } // si no hay carreras, no hago nada
     }
 
-    public void insertarMateria(String carrera, String materia){ //Complejidad de la función: O(|c| + |m|)
+    public void insertarMateria(String carrera, materia materia){ //Complejidad de la función: O(|c| + |m|)
         if(perteneceCarrera(carrera)){                //O(1)
             Nodo actual = raiz;                       //O(1)
             for(char c : carrera.toCharArray()){      //O(|c|)  
@@ -230,45 +228,38 @@ public class trieCarreras {
         }
     }
 
-    public void adjuntarInfoMateriasIguales(String carrera, String materia, InfoMateria info){    //Comp de la función: O(|c|+|m|) 
-        if(perteneceCarrera(carrera)){    //O(|c|)
-            Nodo actual = raiz;    //O(1)
-            for(int i=0;i<carrera.length();i++){    //Ciclo: O(|c|)    //Guarda: O(1)
-                while(actual.valor != carrera.charAt(i)){    //Ciclo: O(1)    //Guarda: O(1)
-                    actual = actual.hermano;    //O(1)
+    public trieMaterias trieMaterias(String carrera){
+        if(perteneceCarrera(carrera)){
+            Nodo actual = raiz;
+            for(int i=0;i<carrera.length();i++){
+                while(actual.valor != carrera.charAt(i)){
+                    actual = actual.hermano;
                 }
-                if(i<carrera.length()-1){    //O(1)
-                    actual = actual.hijo;    //O(1)
+                if(i<carrera.length()-1){
+                    actual = actual.hijo;
                 }
             }
-            actual.materias.adjuntarInfoMateriasIguales(materia, info);    //O(|m|)
+            return actual.materias;
+        }else{
+            return null;
         }
     }
 
     public void insertarInfo(InfoMateria infoMateria){
-        for (ParCarreraMateria parCarreraMateria : infoMateria.getParesCarreraMateria()){    //Ciclo: O(sum(|c|)) * O(|c|+|m|) ?????
-            this.insertarCarrera(parCarreraMateria.getCarrera());    //O(|c|)
-            this.insertarMateria(parCarreraMateria.getCarrera(), parCarreraMateria.getNombreMateria());    //O(|m|)
-            this.adjuntarInfoMateriasIguales(parCarreraMateria.getCarrera(),            //O(|c|+|m|)
-                                             parCarreraMateria.getNombreMateria(),
-                                             infoMateria);
-        }
-    }
 
-    public InfoMateria materiasIguales(String carrera, String materia){    //Comp de la función: O(|c|+|m|)
-        if(this.perteneceCarrera(carrera)){    //Peor caso       //O(|c|) 
-            Nodo actual = raiz;            //O(1)
-            for(int i=0;i<carrera.length();i++){    //Ciclo: O(|c|)    //Guarda: O(1)
-                while(actual.valor != carrera.charAt(i)){    //O(1)
-                    actual = actual.hermano;    //O(1)
-                }
-                if(i<(carrera.length()-1)){    //O(1)
-                    actual = actual.hijo;    //O(1)
-                }
-            }
-            return actual.materias.materiasIguales(materia);    //O(|m|)
-        }else{    //Mejor caso
-            return null;    //O(1)
+        ParCarreraMateria[] paresCarreraMateria = infoMateria.getParesCarreraMateria();
+        trieAlumnos trieAlumnos = new trieAlumnos();
+        int[] docentes = new int[] {0,0,0,0};
+
+        for (ParCarreraMateria par : paresCarreraMateria){
+            String carrera = par.getCarrera();
+            this.insertarCarrera(carrera);
+        }
+        for (ParCarreraMateria par : paresCarreraMateria){
+            String carrera = par.getCarrera();
+            String nombreMat = par.getNombreMateria();
+            materia materia = new materia(nombreMat, paresCarreraMateria, this, trieAlumnos, docentes);
+            this.insertarMateria(carrera, materia);
         }
     }
 
@@ -357,18 +348,18 @@ public class trieCarreras {
         }
     }
 
-    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){    //Complejidad de la función: 
-        if(perteneceCarrera(carrera)){                                                       //O(|c|)
-            Nodo actual = raiz;                                                              //O(1)
-            for(int i=0;i<carrera.length();i++){                                             //Ciclo: //Guarda: 3*O(1) = O(1)
-                while(actual.valor != carrera.charAt(i)){                                        //Ciclo:
-                    actual = actual.hermano;                                                         //O(1)
+    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){
+        if(perteneceCarrera(carrera)){
+            Nodo actual = raiz;
+            for(int i=0;i<carrera.length();i++){
+                while(actual.valor != carrera.charAt(i)){
+                    actual = actual.hermano;
                 }
-                if(i<(carrera.length()-1)){                                                      //If completo: 2*O(1) = O(1)
-                    actual = actual.hijo;                                                            //O(1)
+                if(i<(carrera.length()-1)){
+                    actual = actual.hijo;
                 }
             }
-            actual.materias.eliminarMateria(this, alumnos, materia);                         //????????????????????????????????????????????
+            actual.materias.eliminarMateria(materia, alumnos);
         }
     }
 

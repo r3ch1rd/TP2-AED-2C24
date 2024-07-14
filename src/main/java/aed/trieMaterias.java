@@ -23,9 +23,7 @@ public class trieMaterias {
         private Nodo hermano;
         private Nodo hijo;
         private boolean def;
-        private trieAlumnos alumnos;
-        private InfoMateria info;
-        private int[] docentes;
+        private materia materia;
 
         Nodo(char v){
             valor = v;
@@ -38,16 +36,17 @@ public class trieMaterias {
         raiz = null;    //O(1)
     }
 
-    public void insertarMateria(String materia){   //Complejidad de la función: max{O(1), O(|m|)} = O(|m|)
+    public void insertarMateria(materia materiaClase){   //Complejidad de la función: max{O(1), O(|m|)} = O(|m|)
+        String materia = materiaClase.getNombre();
         int i = 0;                //O(1)
         Nodo actual = raiz;       //O(1) 
         Nodo hermanoMenor = null; //O(1)
         Nodo padre = null;        //O(1)
         if(raiz == null){ //no hay materias  //O(1)
             raiz = new Nodo(materia.charAt(0));  //O(1)
-            padre = raiz;                        //O(1)
-            actual = raiz.hijo;                  //O(1)  
-            i = 1;                               //O(1) 
+            padre = raiz;                              //O(1)
+            actual = raiz.hijo;                        //O(1)  
+            i = 1;                                     //O(1) 
         } else { //hay materias
             if (raiz.valor > materia.charAt(0)) {    //O(1)
                 Nodo nuevaRaiz = new Nodo(materia.charAt(0));    //O(1)
@@ -94,8 +93,7 @@ public class trieMaterias {
         }
         if (padre.def==false){this.cantMaterias++;}   //O(1)
         padre.def = true;                            //O(1)
-        if(padre.alumnos==null){padre.alumnos = new trieAlumnos();}    //O(1)
-        if(padre.docentes==null){padre.docentes = new int[] {0,0,0,0};}    //O(1)
+        if(padre.materia==null){padre.materia = materiaClase;}     //O(1)
     }
 
     public boolean perteneceMaterias(String materia){    //Complejidad de la función: O(|m|) 
@@ -130,7 +128,7 @@ public class trieMaterias {
                     actual = actual.hijo;    //O(1)
                 }
             }
-            actual.alumnos.insertarAlumno(alumno);    //O(1)
+            actual.materia.insertarAlumno(alumno);    //O(1)
         }
     }
 
@@ -145,41 +143,9 @@ public class trieMaterias {
                     actual = actual.hijo;    //O(1)
                 }
             }
-            return actual.alumnos.cantAlumnos();        //O(1)
+            return actual.materia.cantAlumnos();        //O(1)
         }else{        //O(1)    mejor caso
             return 0;    //O(1)
-        }
-    }
-
-    public void adjuntarInfoMateriasIguales(String materia, InfoMateria info){    //O(|m|)
-        if(perteneceMaterias(materia)){    //O(|m|)
-            Nodo actual = raiz;        //O(1)
-            for(int i=0;i<materia.length();i++){     //Complejidad del ciclo: O(|m|)
-                while(actual.valor != materia.charAt(i)){ //O(1)
-                    actual = actual.hermano;    //O(1)
-                }
-                if(i<materia.length()-1){        //O(1)
-                    actual = actual.hijo;        //O(1)
-                }
-            }
-            actual.info = info;        //O(1)
-        }
-    }
-
-    public InfoMateria materiasIguales(String materia){    //Complejidad de la función: O(|m|)
-        if(perteneceMaterias(materia)){    //Peor caso   O(|m|)
-            Nodo actual = raiz;    //O(1)
-            for(int i=0;i<materia.length();i++){    //O(|m|)
-                while(actual.valor != materia.charAt(i)){    //O(1)
-                    actual = actual.hermano;    //O(1)
-                }
-                if(i<(materia.length()-1)){    //O(1)
-                    actual = actual.hijo;    //O(1)
-                }
-            }
-            return actual.info;    //O(1)
-        }else{    //mejor caso
-            return null;    //O(1)
         }
     }
 
@@ -194,20 +160,7 @@ public class trieMaterias {
                     actual = actual.hijo;    //O(1)
                 }
             }
-            switch (docente) {    //O(1)
-                case AY2:
-                    actual.docentes[3] = actual.docentes[3] + 1;    //O(1)
-                    break;
-                case AY1:
-                    actual.docentes[2] = actual.docentes[2] + 1;    //O(1)
-                    break;
-                case JTP:
-                    actual.docentes[1] = actual.docentes[1] + 1;    //O(1)
-                    break;
-                default:
-                    actual.docentes[0] = actual.docentes[0] + 1;    //O(1)
-                    break;
-            }
+            actual.materia.agregarDocente(docente);    //O(1)
         }
     }
 
@@ -222,7 +175,7 @@ public class trieMaterias {
                     actual = actual.hijo;    //O(1)
                 }
             }
-            return actual.docentes;    //O(1)
+            return actual.materia.plantelDocente();    //O(1)
         }else{    //Mejor caso
             return null;    //O(1)
         }
@@ -269,7 +222,7 @@ public class trieMaterias {
         return i;
     }
 
-    public void eliminarMateria(trieCarreras Carreras, trieAlumnos trieAlumnos, String materia){
+    public void eliminarMateria(String materia){
         if(raiz != null){ //si hay materia...
             int i = 0;
             Nodo actual = raiz;
@@ -293,14 +246,9 @@ public class trieMaterias {
                     }
                 }
             }
-            if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieCarreras...
-                InfoMateria infomateria = padre.info;
-                String[] alumnos = padre.alumnos.alumnos();
+            if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieMaterias...
                 if (padre.hijo != null) { // caso -1 agregado despues
                     padre.def = false;
-                    padre.alumnos = null;
-                    padre.docentes = null;
-                    padre.info = null;
                 } else if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
                     if (raiz.hermano == null) {
                         raiz = null;
@@ -317,18 +265,24 @@ public class trieMaterias {
                     ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;
                 }
                 cantMaterias--;
-                for (ParCarreraMateria par : infomateria.getParesCarreraMateria()) {
-                    if (Carreras.perteneceMaterias(par.getCarrera(), par.getNombreMateria())) {
-                        Carreras.eliminarMateria(par.getCarrera(),par.getNombreMateria(), trieAlumnos);
-                    }
-                }
-                for (String alumno : alumnos) {
-                    trieAlumnos.eliminarMateriaAAlumno(alumno);
-                }
             } // si no pertenece, no hago nada
         } // si no hay materias, no hago nada
     }
 
-
+    public void eliminarMateria(String materia, trieAlumnos trieAlumnos){
+        if(perteneceMaterias(materia)){
+            Nodo actual = raiz;
+            for(int i=0;i<materia.length();i++){
+                while(actual.valor != materia.charAt(i)){
+                    actual = actual.hermano;
+                }
+                if(i<materia.length()-1){
+                    actual = actual.hijo;
+                }
+            }
+            actual.materia.eliminarMateria();
+            actual.materia.eliminarMateriaAAlumno(trieAlumnos);
+        }
+    }
 
 }
