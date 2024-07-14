@@ -255,20 +255,20 @@ public class trieCarreras {
         }
     }
 
-    public InfoMateria materiasIguales(String carrera, String materia){
-        if(this.perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public InfoMateria materiasIguales(String carrera, String materia){    //Comp de la función: O(|c|+|m|)
+        if(this.perteneceCarrera(carrera)){    //Peor caso       //O(|c|) 
+            Nodo actual = raiz;            //O(1)
+            for(int i=0;i<carrera.length();i++){    //Ciclo: O(|c|)    //Guarda: O(1)
+                while(actual.valor != carrera.charAt(i)){    //O(1)
+                    actual = actual.hermano;    //O(1)
                 }
-                if(i<(carrera.length()-1)){
-                    actual = actual.hijo;
+                if(i<(carrera.length()-1)){    //O(1)
+                    actual = actual.hijo;    //O(1)
                 }
             }
-            return actual.materias.materiasIguales(materia);
-        }else{
-            return null;
+            return actual.materias.materiasIguales(materia);    //O(|m|)
+        }else{    //Mejor caso
+            return null;    //O(1)
         }
     }
 
