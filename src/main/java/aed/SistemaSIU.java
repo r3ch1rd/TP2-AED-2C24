@@ -74,14 +74,14 @@ public class SistemaSIU {
     //Complejidad
 //O(|c| + Sumatoria de |n|, para todo n perteneciente a N_m + |m| + E_m)
 
-    public void cerrarMateria(String materia, String carrera){
+    public void cerrarMateria(String materia, String carrera){        //O(|c| + Sumatoria de |n|, para todo n perteneciente a N_m + |m| + E_m)
         this.Carreras.eliminarMateria(carrera, materia, AlumnosNroMaterias);
     }
 
     //Complejidad
-//
+//O(|c|+|m|)
 
-    public int inscriptos(String materia, String carrera){
+    public int inscriptos(String materia, String carrera){            // O(|c|+|m|)
         return this.Carreras.inscriptosEnMateria(carrera, materia); 
     }
 
