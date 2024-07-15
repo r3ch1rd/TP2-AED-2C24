@@ -34,29 +34,29 @@ public class materia {
         this.equivalentes.add(nombre);
     }
 
-    public void eliminarMateria(){
-        for(int i=0;i<equivalentes.size();i++){
-            String materia = this.equivalentes.get(i);
-            this.triesEquivalentes.get(i).eliminarMateria(materia);
+    public void eliminarMateria(){                                  //Funcion completa: O(Sumatoria de |n|, para todo n perteneciente a N_m + |m|)
+        for(int i=0;i<equivalentes.size();i++){                         //Ciclo: O(Sumatoria de |n|, para todo n perteneciente a N_m + |m|)
+            String materia = this.equivalentes.get(i);                      //O(1)
+            this.triesEquivalentes.get(i).eliminarMateria(materia);         //O(|m|) o O(|n|) depende el caso
         }
     }
 
-    public void eliminarMateriaAAlumno(trieAlumnos trieAlumnos){
-        String[] alumnos = this.trieAlumnos.alumnos();
-        for (String alumno : alumnos) {
-            trieAlumnos.eliminarMateriaAAlumno(alumno);
+    public void eliminarMateriaAAlumno(trieAlumnos trieAlumnos){    //Funcion completa: O(E)
+        String[] alumnos = this.trieAlumnos.alumnos();                  //O(1)
+        for (String alumno : alumnos) {                                 //Ciclo: O(Sumatoria de 1, E cantidad de veces)
+            trieAlumnos.eliminarMateriaAAlumno(alumno);                     //O(1)
         }
     }
 
-    public void insertarAlumno(String alumno){
-        this.trieAlumnos.insertarAlumno(alumno);
+    public void insertarAlumno(String alumno){      //Funcion completa: O(1)
+        this.trieAlumnos.insertarAlumno(alumno);        //O(1)
     }
 
-    public int cantAlumnos(){
-        return this.trieAlumnos.cantAlumnos();
+    public int cantAlumnos(){                       //Funcion completa: O(1)
+        return this.trieAlumnos.cantAlumnos();          //O(1)
     }
 
-    public void agregarDocente(CargoDocente docente){
+    public void agregarDocente(CargoDocente docente){       //Funcion completa: O(1)
         switch (docente) {
             case AY2:
                 this.docentes[3] = this.docentes[3] + 1;
@@ -73,7 +73,7 @@ public class materia {
         }
     }
 
-    public int[] plantelDocente(){
+    public int[] plantelDocente(){      //Funcion completa: O(1)
         return this.docentes;
     }
 }
