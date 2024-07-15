@@ -295,16 +295,16 @@ public class trieCarreras {
         }
     }
 
-    public String[] carreras(){
-        String[] res = new String[cantCarreras];
-        String pref = "";
-        Nodo actual = raiz;
-        carreras(actual, pref, res);
+    public String[] carreras(){                     //Funcion completa: O(Sumatoria de |c|, para todo c perteneciente a C) 
+        String[] res = new String[cantCarreras];        //O(1)
+        String pref = "";                               //O(1)
+        Nodo actual = raiz;                             //O(1)
+        carreras(actual, pref, res);                    //Esta funcion + el ciclo de abajo: O(Sumatoria de |c|, para todo c perteneciente a C) 
         while(actual.hermano!=null){
             carreras(actual.hermano,pref,res);
             actual = actual.hermano;
         }
-        return res;
+        return res;                                     //O(1)
     }
 
     //Complejidad de void carreras(n,prefijo,res):
