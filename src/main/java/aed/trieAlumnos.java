@@ -173,31 +173,35 @@ public class trieAlumnos {
         }
     }
 
-    public String[] alumnos(){                    //Funcion completa:
+    public String[] alumnos(){                    //Funcion completa: max{O(1),O(|E|) = O(|E|)
         String[] res = new String[cantAlumnos];       //O(cantAlumnos)
         String pref = "";                             //O(1)
         Nodo actual = raiz;                           //O(1)
-        alumnos(actual, pref, res);                   //
+        alumnos(actual, pref, res);                   //Esta funcion + todas las repeticiones de los hermanos O(E)
         while(actual.hermano!=null){
             alumnos(actual.hermano,pref,res);
             actual = actual.hermano;
         }
-        return res;
+        return res;                                   //O(1)
     }
 
 
-    //COmplejidad de void alumnos(n,prefijo,res):
-    //la funcion hace que, a partir de un nodo, baja 
-    public void alumnos(Nodo n, String prefijo, String[] res){    //Funcion completa: 
-        if(n == null){                                                //If completo: 2*O(1) = O(1) en el peor caso solo hay que tener en cuenta la guarda y la rama del else // Guarda: O(1)
+    //Complejidad de void alumnos(n,prefijo,res):
+    //esta funcion es recursiva e itera una vez por cada nodo perteneciente al trie. por lo que su complejidad estaria acotada por la cantidad total de nodos.
+    //en el peor caso imaginable un trie tiene tantos nodos como caracteres totales tengan los string almacenados en él.
+    //Que, en este caso, seria igual a la sumatoria del largo de las LU de todos los alumnos, y como las LU tienen largo acotado la complejidad queda anclada directamente a la cantidad de alumnos (E).
+    //Concluyendo que la funcion tiene complejidad O(E) 
+    
+    public void alumnos(Nodo n, String prefijo, String[] res){    
+        if(n == null){                                                
             return;
         }else{
-            if(n.def == true){                                            //If completo: max{O(cantAlumnos), } //Rama: O(cantAlumnos) + O(1) = O(cantAlumnos) //Guarda: O(1)
-                String alumno = prefijo + n.valor;                            //O(1)
-                res[ultimoElem(res)] = alumno;                                //O(cantAlumnos) + O(1) = O(cantAlumnos)
+            if(n.def == true){                                            
+                String alumno = prefijo + n.valor;                            
+                res[ultimoElem(res)] = alumno;                                
             }else{
-                Nodo hijo = n.hijo;                                           //O(1)
-                alumnos(hijo,prefijo + n.valor,res);                          //
+                Nodo hijo = n.hijo;                                           
+                alumnos(hijo,prefijo + n.valor,res);                          
                 while(hijo.hermano!=null){
                     alumnos(hijo.hermano,prefijo + n.valor,res);
                     hijo = hijo.hermano;
@@ -206,9 +210,9 @@ public class trieAlumnos {
         }
     }
 
-    public int ultimoElem(String[] lista){    //Funcion completa: O(cantAlumnos) + 2*O(1) = O(cantAlumnos)
+    public int ultimoElem(String[] lista){    //Funcion completa: O(E) + 2*O(1) = O(E)
         int i = 0;                                //O(1)
-        while(lista[i]!=null){                    //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) cantAlumnos de O(1) = cantAlumnos*O(1) = O(cantAlumnos) //Guarda: O(1)
+        while(lista[i]!=null){                    //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) cantAlumnos de O(1) = cantAlumnos*O(1) = O(cantAlumnos) = O(|E|) //Guarda: O(1)
             i++;                                      //O(1)
         }
         return i;                                 //O(1)
