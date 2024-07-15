@@ -1,6 +1,21 @@
 package aed;
 import java.util.*;
 
+// Invariante de representación:
+//  pred InvRepMateria (e: materia)
+//      {esTrie(e.trieAlumnos) == true && e.docentes.tamaño = 4 && todosPositivos(e.docentes) &&
+//       e.nombre.largo != 0 && e.equivalentes.tamaño !=0 && e.esquivalentes.tamaño = e.triesEquivalentes.tamaño &&
+//       (para todo i)(0<i<=e.equivalentes.tamaño => e.equivalentes[i].largo != 0) &&
+//       (para todo i)(0<i<=e.triesEquivalentes.tamaño => esTrie(e.triesEquivalentes[i])) &&
+//       (para todo i)(0<i<=e.triesEquivalentes.tamaño => e.nombre.largo <= alturaDeTrie(e.triesEquivalentes[i])) &&
+//       pertenece(e.nombre,e.equivalentes)}
+//  
+//  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
+//
+//  esArbol(e) = todos los nodos, salvo la raiz, tienen un solo padre
+//  todosNodosUtiles(e) = todo nodo no definido tiene hijos 
+//  arbolEnOrdenLexicografico(e) = toda lista de hijos de un nodo está ordenada en orden lexicográfico
+
 import aed.SistemaSIU.CargoDocente;
 
 public class materia {
