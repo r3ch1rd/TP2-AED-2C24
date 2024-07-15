@@ -299,9 +299,10 @@ public class trieCarreras {
         String[] res = new String[cantCarreras];        //O(1)
         String pref = "";                               //O(1)
         Nodo actual = raiz;                             //O(1)
-        carreras(actual, pref, res);                    //Esta funcion + el ciclo de abajo: O(Sumatoria de |c|, para todo c perteneciente a C) 
+        iteradorInt iterador = new iteradorInt();       //O(1)
+        carreras(actual, pref, res, iterador);                    //Esta funcion + el ciclo de abajo: O(Sumatoria de |c|, para todo c perteneciente a C) 
         while(actual.hermano!=null){
-            carreras(actual.hermano,pref,res);
+            carreras(actual.hermano,pref,res,iterador);
             actual = actual.hermano;
         }
         return res;                                     //O(1)
@@ -313,28 +314,32 @@ public class trieCarreras {
     //Que, en este caso, seria igual a la sumatoria del largo de los nombres de todas las carreras.
     //Concluyendo que la funcion tiene complejidad O(Sumatoria de |c|, para todo c perteneciente a C) 
     
-    public void carreras(Nodo n, String prefijo, String[] res){
+    public void carreras(Nodo n, String prefijo, String[] res, iteradorInt iterador){
         if(n == null){
             return;
         }else{
             if(n.def == true){
                 String carrera = prefijo + n.valor;
-                res[ultimoElem(res)] = carrera;
+                res[iterador.posicion] = carrera;
+                iterador.posicion++;
             }else{
                 Nodo hijo = n.hijo;
-                carreras(hijo,prefijo + n.valor,res);
+                carreras(hijo,prefijo + n.valor,res,iterador);
                 while(hijo.hermano!=null){
-                    carreras(hijo.hermano,prefijo + n.valor,res);
+                    carreras(hijo.hermano,prefijo + n.valor,res,iterador);
                     hijo = hijo.hermano;
                 }
             }
         }
     }
 
-    public int ultimoElem(String[] lista){
-        int i = 0;
-        while(lista[i]!=null){i++;}
-        return i;
+    private class iteradorInt {
+        private int posicion;
+
+        iteradorInt(){       //O(1)
+            posicion = 0;
+        }
+        
     }
 
     public String[] materias(String carrera){

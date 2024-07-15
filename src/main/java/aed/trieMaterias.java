@@ -186,9 +186,10 @@ public class trieMaterias {
             String[] res = new String[cantMaterias];    //O(1)
             String pref = "";    //O(1)
             Nodo actual = raiz;    //O(1)
-            materias(actual, pref, res);    //Esta funcion + el ciclo de abajo: O(Sumatoria de |m|, para todo m perteneciente a M) 
+            iteradorInt iterador = new iteradorInt();       //O(1)
+            materias(actual, pref, res, iterador);    //Esta funcion + el ciclo de abajo: O(Sumatoria de |m|, para todo m perteneciente a M) 
             while(actual.hermano!=null){    
-                materias(actual.hermano,pref,res);    
+                materias(actual.hermano,pref,res, iterador);    
                 actual = actual.hermano;    
             }
             return res;     //O(1)
@@ -203,29 +204,35 @@ public class trieMaterias {
     //Que, en este caso, seria igual a la sumatoria del largo de los nombres de todas las materias.
     //Concluyendo que la funcion tiene complejidad O(Sumatoria de |m|, para todo m perteneciente a M) 
     
-    public void materias(Nodo n, String prefijo, String[] res){
+    public void materias(Nodo n, String prefijo, String[] res, iteradorInt iterador){
         if(n == null){
             return;
         }else{
             if(n.def == true){
                 String materia = prefijo + n.valor;
-                res[nroElementos(res)] = materia;
-                if(n.hijo!=null){materias(n.hijo,materia,res);}
+                res[iterador.posicion] = materia;
+                iterador.posicion++;
+                if(n.hijo!=null){
+                    materias(n.hijo,materia,res,iterador);
+                }
             }else{
                 Nodo hijo = n.hijo;
-                materias(hijo,prefijo + n.valor,res);
+                materias(hijo,prefijo + n.valor,res,iterador);
                 while(hijo.hermano!=null){
-                    materias(hijo.hermano,prefijo + n.valor,res);
+                    materias(hijo.hermano,prefijo + n.valor,res,iterador);
                     hijo = hijo.hermano;
                 }
             }
         }
     }
 
-    public int nroElementos(String[] lista){
-        int i = 0;
-        while(lista[i]!=null){i++;}
-        return i;
+    private class iteradorInt {
+        private int posicion;
+
+        iteradorInt(){       //O(1)
+            posicion = 0;
+        }
+        
     }
 
     public void eliminarMateria(String materia){

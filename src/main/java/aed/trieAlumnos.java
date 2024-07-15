@@ -177,9 +177,10 @@ public class trieAlumnos {
         String[] res = new String[cantAlumnos];       //O(cantAlumnos)
         String pref = "";                             //O(1)
         Nodo actual = raiz;                           //O(1)
-        alumnos(actual, pref, res);                   //Esta funcion + todas las repeticiones de los hermanos O(E)
+        iteradorInt iterador = new iteradorInt();     //O(1)
+        alumnos(actual, pref, res, iterador);                   //Esta funcion + todas las repeticiones de los hermanos O(E)
         while(actual.hermano!=null){
-            alumnos(actual.hermano,pref,res);
+            alumnos(actual.hermano,pref,res,iterador);
             actual = actual.hermano;
         }
         return res;                                   //O(1)
@@ -192,29 +193,31 @@ public class trieAlumnos {
     //Que, en este caso, seria igual a la sumatoria del largo de las LU de todos los alumnos, y como las LU tienen largo acotado la complejidad queda anclada directamente a la cantidad de alumnos (E).
     //Concluyendo que la funcion tiene complejidad O(E) 
     
-    public void alumnos(Nodo n, String prefijo, String[] res){    
+    public void alumnos(Nodo n, String prefijo, String[] res, iteradorInt iterador){    
         if(n == null){                                                
             return;
         }else{
             if(n.def == true){                                            
                 String alumno = prefijo + n.valor;                            
-                res[ultimoElem(res)] = alumno;                                
+                res[iterador.posicion] = alumno;                                
+                iterador.posicion++;                               
             }else{
                 Nodo hijo = n.hijo;                                           
-                alumnos(hijo,prefijo + n.valor,res);                          
+                alumnos(hijo,prefijo + n.valor,res,iterador);                          
                 while(hijo.hermano!=null){
-                    alumnos(hijo.hermano,prefijo + n.valor,res);
+                    alumnos(hijo.hermano,prefijo + n.valor,res,iterador);
                     hijo = hijo.hermano;
                 }
             }
         }
     }
 
-    public int ultimoElem(String[] lista){    //Funcion completa: O(E) + 2*O(1) = O(E)
-        int i = 0;                                //O(1)
-        while(lista[i]!=null){                    //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) cantAlumnos de O(1) = cantAlumnos*O(1) = O(cantAlumnos) = O(|E|) //Guarda: O(1)
-            i++;                                      //O(1)
+    private class iteradorInt {
+        private int posicion;
+
+        iteradorInt(){       //O(1)
+            posicion = 0;
         }
-        return i;                                 //O(1)
+        
     }
 }
