@@ -282,7 +282,7 @@ public class trieMaterias {
         } // si no hay materias, no hago nada
     }
 
-    public void eliminarMateria(String materia, trieAlumnos trieAlumnos){
+    public void eliminarMateria(String materia, trieAlumnos trieAlumnos){    //Comp de la función: O(|m|)
         if(perteneceMaterias(materia)){    //O(|m|)
             Nodo actual = raiz;    //O(1)
             for(int i=0;i<materia.length();i++){    //Ciclo: O(|m|)    //Guarda: O(1)
@@ -293,8 +293,8 @@ public class trieMaterias {
                     actual = actual.hijo;    //O(1)
                 }
             }
-            actual.materia.eliminarMateria();    
-            actual.materia.eliminarMateriaAAlumno(trieAlumnos);
+            actual.materia.eliminarMateria();    //O(|m|) pues en el peor caso actual = raiz, en cualquier otro caso actual = actual.hijo o actual.hermano
+            actual.materia.eliminarMateriaAAlumno(trieAlumnos);    //O(1)
         }
     }
 
