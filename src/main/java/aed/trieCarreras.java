@@ -359,7 +359,7 @@ public class trieCarreras {
         }
     }
 
-    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){   //
+    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){   //O(|c| + Sumatoria de |n|, para todo n perteneciente a N_m + |m| + E_m)
         if(perteneceCarrera(carrera)){                                                  //O(|c|)
             Nodo actual = raiz;                                                         //O(1)
             for(int i=0;i<carrera.length();i++){                                        //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) |c| de 2*O(1) = |c|*2*O(1) = O(|c|) //Guarda: O(1)
@@ -370,7 +370,7 @@ public class trieCarreras {
                     actual = actual.hijo;  
                 }
             }
-            actual.materias.eliminarMateria(materia, alumnos);
+            actual.materias.eliminarMateria(materia, alumnos);                          //O(Sumatoria de |n|, para todo n perteneciente a N_m + |m| + E_m)
         }
     }
 
