@@ -228,38 +228,38 @@ public class trieCarreras {
         }
     }
 
-    public trieMaterias trieMaterias(String carrera){
-        if(perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public trieMaterias trieMaterias(String carrera){   //Funcion completa: O(1) + O(|c|) = O(|c|)
+        if(perteneceCarrera(carrera)){                      //If completo: O(|c|)*2 = O(|c|) //Guarda: O(|c|)
+            Nodo actual = raiz;                                 //O(1)
+            for(int i=0;i<carrera.length();i++){                //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) |c| de 2*O(1) = |c|*2*O(1) = O(|c|) //Guarda: O(1)
+                while(actual.valor != carrera.charAt(i)){           //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hermano;                        //O(1)
                 }
-                if(i<carrera.length()-1){
-                    actual = actual.hijo;
+                if(i<carrera.length()-1){                           //If completo: O(1)
+                    actual = actual.hijo;                           
                 }
             }
-            return actual.materias;
-        }else{
+            return actual.materias;                                 //O(1)
+        }else{                                                      //en el peor caso por aca no pasa
             return null;
         }
     }
 
-    public void insertarInfo(InfoMateria infoMateria){
+    public void insertarInfo(InfoMateria infoMateria){                                                  //Funcion completa: Sumatoria de O(|c| + |m|), |C| cantidad de veces
 
-        ParCarreraMateria[] paresCarreraMateria = infoMateria.getParesCarreraMateria();
-        trieAlumnos trieAlumnos = new trieAlumnos();
-        int[] docentes = new int[] {0,0,0,0};
+        ParCarreraMateria[] paresCarreraMateria = infoMateria.getParesCarreraMateria();                     //O(1)
+        trieAlumnos trieAlumnos = new trieAlumnos();                                                        //O(1)
+        int[] docentes = new int[] {0,0,0,0};                                                               //O(1)
 
-        for (ParCarreraMateria par : paresCarreraMateria){
-            String carrera = par.getCarrera();
-            this.insertarCarrera(carrera);
+        for (ParCarreraMateria par : paresCarreraMateria){                                                  //Ciclo: Sumatoria de O(|c|), |C| cantidad de veces
+            String carrera = par.getCarrera();                                                                  //O(1)
+            this.insertarCarrera(carrera);                                                                      //O(|c|)
         }
-        for (ParCarreraMateria par : paresCarreraMateria){
-            String carrera = par.getCarrera();
-            String nombreMat = par.getNombreMateria();
-            materia materia = new materia(nombreMat, paresCarreraMateria, this, trieAlumnos, docentes);
-            this.insertarMateria(carrera, materia);
+        for (ParCarreraMateria par : paresCarreraMateria){                                                  //Ciclo: Sumatoria de O(|c| + |m|), |C| cantidad de veces
+            String carrera = par.getCarrera();                                                                  //O(1)
+            String nombreMat = par.getNombreMateria();                                                          //O(1)
+            materia materia = new materia(nombreMat, paresCarreraMateria, this, trieAlumnos, docentes);         //O(1)
+            this.insertarMateria(carrera, materia);                                                             //O(|c| + |m|)
         }
     }
 
@@ -295,12 +295,12 @@ public class trieCarreras {
         }
     }
 
-    public String[] carreras(){                     //Funcion completa: O(Sumatoria de |c|, para todo c perteneciente a C) 
+    public String[] carreras(){                     //Funcion completa: O(Sumatoria de |c|, |C| cantidad de veces) 
         String[] res = new String[cantCarreras];        //O(1)
         String pref = "";                               //O(1)
         Nodo actual = raiz;                             //O(1)
         iteradorInt iterador = new iteradorInt();       //O(1)
-        carreras(actual, pref, res, iterador);                    //Esta funcion + el ciclo de abajo: O(Sumatoria de |c|, para todo c perteneciente a C) 
+        carreras(actual, pref, res, iterador);                    //Esta funcion + el ciclo de abajo: O(Sumatoria de |c|, |C| cantidad de veces) 
         while(actual.hermano!=null){
             carreras(actual.hermano,pref,res,iterador);
             actual = actual.hermano;
@@ -312,7 +312,7 @@ public class trieCarreras {
     //esta funcion es recursiva e itera una vez por cada nodo perteneciente al trie. por lo que su complejidad estaria acotada por la cantidad total de nodos.
     //en el peor caso imaginable un trie tiene tantos nodos como caracteres totales tengan los string almacenados en él.
     //Que, en este caso, seria igual a la sumatoria del largo de los nombres de todas las carreras.
-    //Concluyendo que la funcion tiene complejidad O(Sumatoria de |c|, para todo c perteneciente a C) 
+    //Concluyendo que la funcion tiene complejidad O(Sumatoria de |c|, |C| cantidad de veces) 
     
     public void carreras(Nodo n, String prefijo, String[] res, iteradorInt iterador){
         if(n == null){
@@ -342,32 +342,32 @@ public class trieCarreras {
         
     }
 
-    public String[] materias(String carrera){
-        if(this.perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public String[] materias(String carrera){               //funcion completa: O(|c| + Sumatoria de |m_c|, para todo m_c perteneciente a M_c)
+        if(this.perteneceCarrera(carrera)){                     //O(|c|)
+            Nodo actual = raiz;                                 //O(1)
+            for(int i=0;i<carrera.length();i++){                //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) |c| de 2*O(1) = |c|*2*O(1) = O(|c|) //Guarda: O(1)
+                while(actual.valor != carrera.charAt(i)){           //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hermano;                            //O(1)
                 }
-                if(i<(carrera.length()-1)){
-                    actual = actual.hijo;
+                if(i<carrera.length()-1){                           //If completo: O(1)
+                    actual = actual.hijo;                           
                 }
             }
-            return actual.materias.materias();
+            return actual.materias.materias();                  //O(Sumatoria de |m_c|, para todo m_c perteneciente a M_c)
         }else{
             return null;
         }
     }
 
-    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){
-        if(perteneceCarrera(carrera)){
-            Nodo actual = raiz;
-            for(int i=0;i<carrera.length();i++){
-                while(actual.valor != carrera.charAt(i)){
-                    actual = actual.hermano;
+    public void eliminarMateria(String carrera, String materia, trieAlumnos alumnos){   //
+        if(perteneceCarrera(carrera)){                                                  //O(|c|)
+            Nodo actual = raiz;                                                         //O(1)
+            for(int i=0;i<carrera.length();i++){                                        //Ciclo: Sumatoria desde k = 0 hasta (en el peor caso) |c| de 2*O(1) = |c|*2*O(1) = O(|c|) //Guarda: O(1)
+                while(actual.valor != carrera.charAt(i)){                                   //Ciclo: Sumatoria desde k = 0 hasta (en el peor de los casos) 255 (todo el abecedario ASCII) de O(1) = 256*O(1) = O(1) //Guarda: O(1)
+                    actual = actual.hermano;                                                    //O(1)
                 }
-                if(i<(carrera.length()-1)){
-                    actual = actual.hijo;
+                if(i<carrera.length()-1){                                               //If completo: O(1)
+                    actual = actual.hijo;  
                 }
             }
             actual.materias.eliminarMateria(materia, alumnos);
