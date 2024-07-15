@@ -282,7 +282,7 @@ public class trieMaterias {
         } // si no hay materias, no hago nada
     }
 
-    public void eliminarMateria(String materia, trieAlumnos trieAlumnos){    //Comp de la función: O(Sumatoria de |n|, para todo n perteneciente a N_m + |m|)
+    public void eliminarMateria(String materia, trieAlumnos trieAlumnos){    //Comp de la función: O(Sumatoria de |n|, para todo n perteneciente a N_m + |m| + E_m)
         if(perteneceMaterias(materia)){    //O(|m|)
             Nodo actual = raiz;    //O(1)
             for(int i=0;i<materia.length();i++){    //Ciclo: O(|m|)    //Guarda: O(1)
@@ -294,7 +294,7 @@ public class trieMaterias {
                 }
             }
             actual.materia.eliminarMateria();    //O(Sumatoria de |n|, para todo n perteneciente a N_m + |m|) 
-            actual.materia.eliminarMateriaAAlumno(trieAlumnos);    //O(1)
+            actual.materia.eliminarMateriaAAlumno(trieAlumnos);    //O(E_m)
         }
     }
 
