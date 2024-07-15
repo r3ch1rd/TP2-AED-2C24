@@ -116,7 +116,8 @@ public class SistemaSIU {
     }
 
     //Complejidad
-//
+//    O(|c| + Sumatoria de |m_c|, para todo m_c perteneciente a M_c) 
+//    pues solo usa la función materias de trieCarreras
 
     public String[] materias(String carrera){
         return this.Carreras.materias(carrera);
