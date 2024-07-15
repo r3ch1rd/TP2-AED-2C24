@@ -237,47 +237,47 @@ public class trieMaterias {
 
     public void eliminarMateria(String materia){     //O(|m|)
         if(raiz != null){ //si hay materia...
-            int i = 0;
-            Nodo actual = raiz;
-            Nodo padre = null;
-            Nodo ultimoNodoUtil = null;
-            int caso = 0;
-            while (actual != null && i < materia.length()) {
-                while (actual != null && actual.valor != materia.charAt(i)){
-                    if (actual.hijo != null || actual.def == true) {
-                        ultimoNodoUtil = actual;
-                        caso = 1;
+            int i = 0;            //O(1)    
+            Nodo actual = raiz;    //O(1)
+            Nodo padre = null;    //O(1)
+            Nodo ultimoNodoUtil = null;    //O(1)
+            int caso = 0;    //O(1)
+            while (actual != null && i < materia.length()) {    //Ciclo: O(|m|)    //Guarda: O(1)
+                while (actual != null && actual.valor != materia.charAt(i)){    //Ciclo: O(1)    //Guarda: O(1)
+                    if (actual.hijo != null || actual.def == true) {    //O(1)
+                        ultimoNodoUtil = actual;    //O(1)
+                        caso = 1;    //O(1)
                     }
-                    actual = actual.hermano;
+                    actual = actual.hermano;    //O(1)
                 } // actual == null || actual.valor == materia.charAt(i)
-                if (actual != null && actual.valor == materia.charAt(i)) {
-                    i++;
-                    padre = actual;
-                    actual = actual.hijo;
-                    if (actual !=null && actual.hermano != null) { //caso = 2;
-                        ultimoNodoUtil = padre;
+                if (actual != null && actual.valor == materia.charAt(i)) {    //O(1)
+                    i++;    //O(1)
+                    padre = actual;    //O(1)
+                    actual = actual.hijo;    //O(1)
+                    if (actual !=null && actual.hermano != null) { //caso = 2;    //O(1)
+                        ultimoNodoUtil = padre;    //O(1)
                     }
                 }
             }
-            if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieMaterias...
-                if (padre.hijo != null) { // caso -1 agregado despues
-                    padre.def = false;
-                } else if (ultimoNodoUtil == null) { // tambien podria poner caso == 0
-                    if (raiz.hermano == null) {
-                        raiz = null;
+            if (i == materia.length() && padre.valor == materia.charAt(materia.length()-1) && padre.def == true) { // si materia pertenece a trieMaterias...     //O(1)
+                if (padre.hijo != null) { // caso -1 agregado despues    //O(1)
+                    padre.def = false;    //O(1)
+                } else if (ultimoNodoUtil == null) { // tambien podria poner caso == 0    //O(1)
+                    if (raiz.hermano == null) {    //O(1)
+                        raiz = null;    //O(1)
                     } else {
-                        raiz = raiz.hermano;
+                        raiz = raiz.hermano;    //O(1)
                     }
-                } else if (caso == 1) {
-                    if (ultimoNodoUtil.hermano.hermano == null) {
-                        ultimoNodoUtil.hermano = null;   
+                } else if (caso == 1) {    //O(1)
+                    if (ultimoNodoUtil.hermano.hermano == null) {    v//O(1)
+                        ultimoNodoUtil.hermano = null;       //O(1)
                     } else {
-                        ultimoNodoUtil.hermano = ultimoNodoUtil.hermano.hermano;
+                        ultimoNodoUtil.hermano = ultimoNodoUtil.hermano.hermano;    //O(1)
                     }
                 } else { //caso == 2
-                    ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;
+                    ultimoNodoUtil.hijo = ultimoNodoUtil.hijo.hermano;    //O(1)
                 }
-                cantMaterias--;
+                cantMaterias--;    //O(1)
             } // si no pertenece, no hago nada
         } // si no hay materias, no hago nada
     }
