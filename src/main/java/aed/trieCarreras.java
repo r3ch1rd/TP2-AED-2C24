@@ -307,6 +307,12 @@ public class trieCarreras {
         return res;
     }
 
+    //Complejidad de void carreras(n,prefijo,res):
+    //esta funcion es recursiva e itera una vez por cada nodo perteneciente al trie. por lo que su complejidad estaria acotada por la cantidad total de nodos.
+    //en el peor caso imaginable un trie tiene tantos nodos como caracteres totales tengan los string almacenados en él.
+    //Que, en este caso, seria igual a la sumatoria del largo de los nombres de todas las carreras.
+    //Concluyendo que la funcion tiene complejidad O(Sumatoria de |c|, para todo c perteneciente a C) 
+    
     public void carreras(Nodo n, String prefijo, String[] res){
         if(n == null){
             return;
