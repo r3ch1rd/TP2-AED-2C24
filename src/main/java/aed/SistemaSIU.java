@@ -113,7 +113,7 @@ public class SistemaSIU {
     }
 
     //Complejidad
-//    O(Sumatoria de |c|, |C| cantidad de veces)
+//    O(Sumatoria de |c|, por cada c perteneciente a C)
 
     public String[] carreras(){
         return this.Carreras.carreras();
