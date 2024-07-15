@@ -3,7 +3,7 @@ package aed;
 import aed.SistemaSIU.CargoDocente;
 //  Invariante de representación:
 //  pred InvRepTrieCarreras (e: trieCarreras)
-//      {esTrie(e) == true}
+//      {esTrie(e) == true && e.cantCarreras >= 0}
 //  
 //  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
 //
