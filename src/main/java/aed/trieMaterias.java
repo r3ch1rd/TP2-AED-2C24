@@ -181,22 +181,28 @@ public class trieMaterias {
         }
     }
 
-    public String[] materias(){    //O(sum(|M_c|))
+    public String[] materias(){    //O(Sumatoria de |m|, para todo m perteneciente a M)
         if (cantMaterias !=0 ) {    //Peor caso    //O(1)
             String[] res = new String[cantMaterias];    //O(1)
             String pref = "";    //O(1)
             Nodo actual = raiz;    //O(1)
-            materias(actual, pref, res); //O(sum(|M_c|)) recorre todos las materias (que empiezan con la letra de la raiz), entonces es O de la materia de nombre más largo, ie, O(sum()|M_c|)
-            while(actual.hermano!=null){    //O(1)
-                materias(actual.hermano,pref,res);     //recorre todos las materias (que empiezan con las siguientes letras), entonces es O de la materia de nombre más largo, ie, O(sum()|M_c|) 
-                actual = actual.hermano;    //O(1)
+            materias(actual, pref, res);    //Esta funcion + el ciclo de abajo: O(Sumatoria de |m|, para todo m perteneciente a M) 
+            while(actual.hermano!=null){    
+                materias(actual.hermano,pref,res);    
+                actual = actual.hermano;    
             }
             return res;     //O(1)
-        } else {    //Mejor caso
-            return new String[0];    //O(1)
+        } else {    //En el peor caso, por aca no pasa
+            return new String[0];    
         }
     }
 
+    //Complejidad de void materias(n,prefijo,res):
+    //esta funcion es recursiva e itera una vez por cada nodo perteneciente al trie. por lo que su complejidad estaria acotada por la cantidad total de nodos.
+    //en el peor caso imaginable un trie tiene tantos nodos como caracteres totales tengan los string almacenados en él.
+    //Que, en este caso, seria igual a la sumatoria del largo de los nombres de todas las materias.
+    //Concluyendo que la funcion tiene complejidad O(Sumatoria de |m|, para todo m perteneciente a M) 
+    
     public void materias(Nodo n, String prefijo, String[] res){
         if(n == null){
             return;
