@@ -235,7 +235,7 @@ public class trieMaterias {
         
     }
 
-    public void eliminarMateria(String materia){
+    public void eliminarMateria(String materia){     //O(|m|)
         if(raiz != null){ //si hay materia...
             int i = 0;
             Nodo actual = raiz;
