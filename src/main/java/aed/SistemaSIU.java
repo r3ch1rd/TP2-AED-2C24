@@ -24,8 +24,12 @@ public class SistemaSIU {
     }
 
     // Complejidad
+// asiganar AlumnosNroMaterias = new trieAlumnos es O(1) pues vrear un trieAlumnos es O(1)    
 // insetarAlumno tiene una complejidad O(1) pues el String alumno es acotado
 // por lo que insetar todos los alumnos al trie AlumnosNroMaterias es de O(E).
+// crear un trieCarreras tambien es O(1)
+//  
+    
 
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
         
