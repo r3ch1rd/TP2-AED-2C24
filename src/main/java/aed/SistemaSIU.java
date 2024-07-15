@@ -28,7 +28,10 @@ public class SistemaSIU {
 // insetarAlumno tiene una complejidad O(1) pues el String alumno es acotado
 // por lo que insetar todos los alumnos al trie AlumnosNroMaterias es de O(E).
 // crear un trieCarreras tambien es O(1)
-//  
+// insertarInfo es Sumatoria de O(|c| + |m|) = O(sumatoria de |c| + |m|), hacerlo por cada materia, teniendo en cuenta los nombres multiples
+// queda O(sumatoria( |c|+|m| + sumatoria( sumatoria(|n|))) con las n los distintos nombres de una materia 
+// por cada materia con nombres repetidos por cada carrera
+// En conjunto, obtenemos O(sumatoria( |c|+|m| + sumatoria( sumatoria(|n|)) + E) con las sumatorias descritas anteriormente.
     
 
     public SistemaSIU(InfoMateria[] infoMaterias, String[] libretasUniversitarias){
