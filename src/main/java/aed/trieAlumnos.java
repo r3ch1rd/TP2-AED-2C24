@@ -2,7 +2,7 @@ package aed;
 
 // Invariante de representación:
 //  pred InvRepTrieAlumnos (e: trieAlumnos)
-//      {esTrie(e) == true}
+//      {esTrie(e) == true && e.cantAlumnos >= 0}
 //  
 //  esTrie(e) = esArbol(e) && todosNodosUtiles(e) && arbolEnOrdenLexicografico(e) 
 //
